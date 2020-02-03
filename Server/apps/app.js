@@ -4,6 +4,8 @@ const port = 3000
 const userRoutes = require('../routes/user')
 const cors = require('cors')
 const database = require('../utils/database')
+var bodyParser = require('body-parser')
+
 
 
 function initDatabaseMiddleWare() {
@@ -28,6 +30,8 @@ initDatabaseMiddleWare();
 
 
 app.use(cors())
+
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
