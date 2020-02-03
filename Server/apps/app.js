@@ -6,6 +6,8 @@ const submitRoutes = require('../routes/submit')
 const cors = require('cors')
 const database = require('../utils/database')
 var bodyParser = require('body-parser')
+var jwt = require('jsonwebtoken');
+const auth = require("../middleware/auth")
 
 
 
@@ -33,6 +35,8 @@ initDatabaseMiddleWare();
 app.use(cors())
 
 app.use(bodyParser.json())
+
+app.use(auth);
 
 app.get('/', (req, res) => res.send('Hello World!'))
 

@@ -1,6 +1,8 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+var jwt = require('jsonwebtoken');
+
 
 
 
@@ -34,6 +36,15 @@ exports.getUsers = (req, res) => {
 exports.login = (req, res) => {
     User.findOne({ name: new RegExp('^' + req.body.name + '$', "i") }).then((doc) => {
         bcrypt.compare(req.body.psd, doc.password, function (err, resp) {
+            if (resp == true) {
+                jwt.sign({ name: req.body.name }, 'shhhhh', function (err, token) {
+                    console.log(token);
+                    jwt.verify(token, 'shhhhh', function (err, decoded) {
+                        console.log(decoded.name) // bar
+                    });
+                });
+
+            }
             res.send(resp)
         });
 
