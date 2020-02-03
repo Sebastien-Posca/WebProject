@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const userRoutes = require('../routes/user')
+const submitRoutes = require('../routes/submit')
 const cors = require('cors')
 const database = require('../utils/database')
 var bodyParser = require('body-parser')
@@ -38,3 +39,5 @@ app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 app.use('/user', userRoutes);
+
+app.use('/submit', submitRoutes);
