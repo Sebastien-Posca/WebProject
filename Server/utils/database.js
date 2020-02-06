@@ -1,6 +1,6 @@
 const mongoose = require('mongoose'),
     host = "localhost",
-    database = "ogz"
+    database = "web"
 connectionString = 'mongodb://' + host + '/' + database;
 
 let connection = null;
@@ -10,7 +10,8 @@ class Database {
     open(callback) {
         var options = {
             promiseLibrary: global.Promise,
-            useNewUrlParser: true
+            useNewUrlParser: true,
+            useUnifiedTopology: true
         };
         mongoose.connect(connectionString, options, (err) => {
             if (err) {

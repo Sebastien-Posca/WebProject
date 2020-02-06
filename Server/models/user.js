@@ -3,8 +3,7 @@ const mongoose = require('mongoose'),
     ObjectId = Schema.Types.ObjectId;
 
 const UserSchema = new Schema({
-    _id: { type: ObjectId, require: true },
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     password: { type: String, required: true },
 });
 
