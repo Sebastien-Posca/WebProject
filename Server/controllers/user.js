@@ -3,9 +3,6 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 var jwt = require('jsonwebtoken');
 
-
-
-
 exports.createUser = (req, res) => {
     let user = new User();
     user.name = req.body.name;
@@ -39,13 +36,10 @@ exports.login = (req, res) => {
             if (resp == true) {
                 jwt.sign({ name: req.body.name }, 'shhhhh', function (err, token) {
                     console.log(token);
-                    jwt.verify(token, 'shhhhh', function (err, decoded) {
-                        console.log(decoded.name) // bar
-                    });
+                    res.send(token)
                 });
 
             }
-            res.send(resp)
         });
 
     })

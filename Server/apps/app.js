@@ -6,7 +6,6 @@ const submitRoutes = require('../routes/submit')
 const cors = require('cors')
 const database = require('../utils/database')
 var bodyParser = require('body-parser')
-var jwt = require('jsonwebtoken');
 const auth = require("../middleware/auth")
 
 
