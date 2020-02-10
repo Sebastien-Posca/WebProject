@@ -18,6 +18,7 @@ const formItemLayout = {
 const PluginForm = props => {
 
     Form.create();
+    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = props.form
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -38,37 +39,65 @@ const PluginForm = props => {
         <div>
             <Form {...formItemLayout} onSubmit={(e) => handleClick(e)}>
                 <Form.Item label="Nom du Plugin">
-                    <Input
-                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        placeholder="Nom du plugin"
-                    />
+                    {getFieldDecorator('name', {
+                        rules: [{ required: true, message: 'Please input the plugin name!' }]
+                    })(
+                        <Input
+                            placeholder="Plugin name"
+                        />
+                    )}
                 </Form.Item>
                 <Form.Item label="Version">
-                    <InputNumber
-                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        placeholder="Version"
-                    />
+                    {getFieldDecorator('version', {
+                        rules: [{ required: true, message: 'Please input a version!' }]
+                    })(
+                        <InputNumber
+                            placeholder="Version"
+                        />
+                    )}
                 </Form.Item>
                 <Form.Item label="Description">
-                    <TextArea rows={2}
-                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        placeholder="Description"
-                    />
+                    {getFieldDecorator('description', {
+                        rules: [{ required: true, message: 'Please input a description!' }]
+                    })(
+                        <TextArea rows={2}
+                            placeholder="Description"
+                        />
+                    )}
                 </Form.Item>
-                <Form.Item label="Image">
-                    <Upload name="logo" action="/upload.do" listType="picture">
-                        <Button>
-                            <Icon type="upload" /> Click to upload
+                <Form.Item label="Thumbnail">
+                    {getFieldDecorator('thumbnail', {
+                        rules: [{ required: true, message: 'Please upload a thumbnail for your plugin!' }]
+                    })(
+                        <Upload name="logo" action="/upload.do" listType="picture">
+                            <Button>
+                                <Icon type="upload" /> Click to upload
                         </Button>
-                    </Upload>
+                        </Upload>
+                    )}
                 </Form.Item>
-                <Form.Item label="Categorie">
-                    <Select defaultValue={categories[0]}>
-                        {categories.map((item) => {
-                            return <Option value={item}>{item}</Option>
-                        })
-                        }
-                    </Select>
+                <Form.Item label="ZipFile">
+                    {getFieldDecorator('zipfile', {
+                        rules: [{ required: true, message: 'Please upload a Zip file for your plugin!' }]
+                    })(
+                        <Upload name="logo" action="/upload.do" listType="picture">
+                            <Button>
+                                <Icon type="upload" /> Click to upload
+                        </Button>
+                        </Upload>
+                    )}
+                </Form.Item>
+                <Form.Item label="Category">
+                    {getFieldDecorator('category', {
+                        rules: [{ required: true, message: 'Please select a category!' }]
+                    })(
+                        <Select defaultValue={categories[0]}>
+                            {categories.map((item) => {
+                                return <Option value={item}>{item}</Option>
+                            })
+                            }
+                        </Select>
+                    )}
                 </Form.Item>
                 <Form.Item >
                     <Button type="primary" htmlType="submit" className="login-form-button" > Envoyer le plugin </Button>
