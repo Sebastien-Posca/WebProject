@@ -1,6 +1,6 @@
 var multer = require('multer');
 var fs = require('fs');
-var AdmZip = require('adm-zip');
+var unzipper = require('unzipper')
 let pluginController = require('../controllers/plugin')
 
 var storage = multer.diskStorage({
@@ -15,16 +15,20 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
-function fileUpload(req, res) {
-  console.log(req);
-  console.log(req.file);
-  var zip = new AdmZip(req.file.path);
-  zip.extractAllTo(req.file.destination, true);
-  pluginController.createPlugin("moi", req.file.destination, "ok");
-  res.status(200).json({
-    message: "Message received",
-  });
-}
+exports.fileUpload = (req, res) => {
+  let temp = fs.createReadStream(req.file.path).pipe(unzipper.Extract({ path: req.file.destination }));
+  temp.on("close", () => {
+    let buffer = (fs.existsSync(req.file.destination + '/main.json')) ? fs.readFileSync(req.file.destination + '/main.json') : console.log("non")
+    let main = JSON.parse(buffer);
+    fs.writeFileSync(req.file.destination + '/thumbnail.jpg', req.body.thumbnail);
+    if (req.body.thumbnail == undefined) {
 
-module.exports.fileUpload = fileUpload;
+    }
+    pluginController.createPlugin('moi', req.file.destination, req.body.name, main.name, req.body.description, req.body.tags, req.body.categorie, req.body.version);
+    res.status(200).json({
+      message: "Message received",
+    });
+  })
+
+}
 module.exports.upload = upload;

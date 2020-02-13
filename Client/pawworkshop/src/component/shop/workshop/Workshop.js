@@ -1,61 +1,59 @@
-import React, {useEffect, useState} from 'react';
-import {Card} from 'antd';
-import NavigationBar from '../../core/navigation-bar/NavigationBar';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-const {Meta} = Card;
-const Workshop = () => {
+import { useSelector, useDispatch } from 'react-redux';
+import NavigationBar from './NavigationBar';
+import PluginCard from './PluginCard';
+import { Spin } from 'antd';
+
+const Workshop = props => {
 
 
-    // noinspection JSUnusedLocalSymbols
     const [pluginList, setPluginList] = useState([]);
-    // noinspection JSUnusedLocalSymbols
     const [loading, setLoading] = useState(true);
-    // noinspection JSUnusedLocalSymbols
     const [result, setResult] = useState([]);
-
+    const pluginListStored = useSelector((state) => state.pluginList)
+    const dispatch = useDispatch();
     const fetchPlugin = async () => {
 
-        let response = await fetch('http://mainline.i3s.unice.fr/repository.json');
+        let response = await fetch('http://192.168.43.68:3000/plugin')
         let results = await response.json();
 
-        Object.entries(results.plugs).map(([key, value]) => {
-            console.log(key);
-            console.log(value);
-        });
-
-        setResult(Object.entries(results.plugs));
+        console.log(results);
+        dispatch({ type: 'plugin_list', pluginList: results });
         setLoading(false);
-    };
+        setResult(results);
+    }
 
-    // noinspection JSUnusedLocalSymbols
-    const printPlugins = (item) => {
-        console.log(item);
-        return <Card> <Meta title="Europe Street beat" description="www.instagram.com"/></Card>
-
-    };
-    // noinspection JSUnusedLocalSymbols
     const fetchPluginInformations = () => {
 
-    };
+    }
 
     useEffect(() => {
         fetchPlugin();
-    }, []);
+    }, [])
 
     return (
         <>
-            <NavigationBar/>
-            <div>
-
-                {/* {loading ? <div> Nothing Yet </div> : <>{[result].map((item) => {
-                return printPlugins(item);
-            })}</>} */}
-
+            <NavigationBar />
+            {loading ? <div>
+                <Spin size="large" tip="Chargement des Plugins" />
             </div>
+                :
+                <div>
+
+                    {result.map((item) => {
+                        return <PluginCard item={item} />
+                    })}
+
+                </div>
+            }
         </>
     );
 };
 
-Workshop.propTypes = {};
+Workshop.propTypes = {
+
+};
 
 export default Workshop;

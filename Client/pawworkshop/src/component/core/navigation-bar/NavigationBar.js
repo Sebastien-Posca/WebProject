@@ -1,9 +1,9 @@
 import React from 'react';
-import {Icon, Menu} from 'antd';
+import PropTypes from 'prop-types';
+import { Menu, Icon, Button } from 'antd';
 import './NavigationBar.css';
-import {Link} from 'react-router-dom';
-
-const NavigationBar = () => {
+import { Link } from 'react-router-dom';
+const NavigationBar = props => {
     return (
         <div className="navigationBar">
             <Menu
@@ -13,20 +13,20 @@ const NavigationBar = () => {
                 theme="dark"
             >
                 <Menu.Item key="1">
-                    <Icon type="pie-chart"/>
+                    <Icon type="pie-chart" />
                     <span>Ajouter un plugin</span>
 
-                    <Link to="/form"/>
+                    <Link to="/form" />
                 </Menu.Item>
                 <Menu.Item key="2">
-                    <Icon type="desktop"/>
+                    <Icon type="desktop" />
                     <span>Visiter le magasin</span>
 
-                    <Link to="/plugin"/>
+                    <Link to="/workshop" />
 
                 </Menu.Item>
                 <Menu.Item key="3">
-                    <Icon type="inbox"/>
+                    <Icon type="inbox" />
                     <span>Option 3</span>
                 </Menu.Item>
             </Menu>
@@ -34,6 +34,8 @@ const NavigationBar = () => {
     );
 };
 
-NavigationBar.propTypes = {};
+NavigationBar.propTypes = {
+
+};
 
 export default NavigationBar;
