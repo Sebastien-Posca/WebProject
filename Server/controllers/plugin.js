@@ -1,13 +1,20 @@
 const Plugin = require('../models/plugin')
 var fs = require('fs');
 var path = require('path');
+var express = require("express");
 
 
-exports.createPlugin = (user, path, name) => {
+
+exports.createPlugin = (user, path, name, moduleName, description, tags, category, version) => {
     let plugin = new Plugin();
+    plugin.moduleName = moduleName;
     plugin.user = user;
     plugin.path = path;
     plugin.name = name;
+    plugin.description = description;
+    plugin.tags = tags;
+    plugin.category = category;
+    plugin.version = version;
     plugin.save((err, plugin) => {
         if (err) console.log(err);
         console.log(plugin);
@@ -40,8 +47,9 @@ exports.getPlugin = (req, res) => {
     });
 }
 
-exports.getPlugin = (req, res) => {
+exports.servePlugin = (req, res) => {
     Plugin.findById(req.params.id).then((doc) => {
-        res.sendFile(path.join(doc.path, doc.name, "index.html"));
+        express.static(path.join(__dirname, "../apps", doc.path))
+        res.sendFile(path.join(__dirname, "../apps", doc.path, req.params.filename));
     });
 }
