@@ -98,7 +98,7 @@ const PluginForm = props => {
                 formData.append('version', values.version);
                 formData.append('description', values.description);
                 formData.append('thumbnail', values.thumbnail.file.thumbUrl);
-                formData.append('categorie', values.categorie);
+                formData.append('categorie', values.category);
                 formData.append('tags', values.tags);
                 reqwest({
                     url: 'http://192.168.43.68:3000/submit',
