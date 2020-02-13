@@ -22,7 +22,7 @@ const NavigationBar = props => {
                     <Icon type="desktop" />
                     <span>Visiter le magasin</span>
 
-                    <Link to="/plugin" />
+                    <Link to="/workshop" />
 
                 </Menu.Item>
                 <Menu.Item key="3">
