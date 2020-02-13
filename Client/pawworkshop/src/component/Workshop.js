@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'antd';
-import NavigationBar from './NavigationBar';
 
-const { Meta } = Card;
+import NavigationBar from './NavigationBar';
+import PluginCard from './PluginCard';
+
 const Workshop = props => {
 
 
@@ -27,7 +27,6 @@ const Workshop = props => {
 
     const printPlugins = (item) => {
         console.log(item)
-        return <Card > <Meta title="Europe Street beat" description="www.instagram.com" /></Card>
 
     }
     const fetchPluginInformations = () => {
@@ -43,6 +42,7 @@ const Workshop = props => {
             <NavigationBar />
             <div>
 
+                <PluginCard />
                 {/* {loading ? <div> Nothing Yet </div> : <>{[result].map((item) => {
                 return printPlugins(item);
             })}</>} */}
