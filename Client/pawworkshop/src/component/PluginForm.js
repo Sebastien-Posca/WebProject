@@ -92,12 +92,13 @@ const PluginForm = props => {
 
         props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                setUploading(true);
+                // setUploading(true);
                 console.log('Received values of form: ', values);
                 formData.append('name', values.name);
                 formData.append('version', values.version);
                 formData.append('description', values.description);
                 formData.append('thumbnail', values.thumbnail.file.thumbUrl);
+                formData.append('categorie', values.categorie);
                 formData.append('tags', values.tags);
                 reqwest({
                     url: 'http://192.168.43.68:3000/submit',
@@ -183,6 +184,7 @@ const PluginForm = props => {
                 <Form.Item label="Category">
                     {getFieldDecorator('category', {
                         rules: [{ required: true, message: 'Please select a category!' }]
+
                     })(
                         <Select defaultValue={categories[0]}>
                             {categories.map((item) => {
