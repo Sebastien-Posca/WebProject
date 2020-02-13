@@ -157,7 +157,7 @@ const PluginForm = props => {
                 </Form.Item>
                 <Form.Item label="Thumbnail">
                     {getFieldDecorator('thumbnail', {
-                        rules: [{ required: true, message: 'Please upload a thumbnail for your plugin!' }]
+                        rules: [{ required: false, message: 'Please upload a thumbnail for your plugin!' }]
                     })(
                         <Upload name="logo" listType="picture-card" customRequest={handleBeforeUploadThumbnail} onChange={onThumbnailChange}>
                             {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
