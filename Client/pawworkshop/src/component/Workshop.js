@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import NavigationBar from './NavigationBar';
 import PluginCard from './PluginCard';
+import { Spin } from 'antd';
 
 const Workshop = props => {
 
@@ -13,22 +14,15 @@ const Workshop = props => {
 
     const fetchPlugin = async () => {
 
-        let response = await fetch('http://mainline.i3s.unice.fr/repository.json')
+        let response = await fetch('http://192.168.43.68:3000/plugin')
         let results = await response.json();
 
-        Object.entries(results.plugs).map(([key, value]) => {
-            console.log(key)
-            console.log(value);
-        });
+        console.log(results);
 
-        setResult(Object.entries(results.plugs));
         setLoading(false);
+        setResult(results);
     }
 
-    const printPlugins = (item) => {
-        console.log(item)
-
-    }
     const fetchPluginInformations = () => {
 
     }
@@ -40,14 +34,18 @@ const Workshop = props => {
     return (
         <>
             <NavigationBar />
-            <div>
-
-                <PluginCard />
-                {/* {loading ? <div> Nothing Yet </div> : <>{[result].map((item) => {
-                return printPlugins(item);
-            })}</>} */}
-
+            {loading ? <div>
+                <Spin size="large" tip="Chargement des Plugins" />
             </div>
+                :
+                <div>
+
+                    {result.map((item) => {
+                        return <PluginCard item={item} />
+                    })}
+
+                </div>
+            }
         </>
     );
 };

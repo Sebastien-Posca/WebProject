@@ -7,7 +7,7 @@ import reqwest from 'reqwest';
 
 
 
-
+const { Option } = Select;
 const { TextArea } = Input;
 const categories = ['Modulation', 'Distortion', 'Egalisation', 'Reverb', 'Accordeur']
 
@@ -30,6 +30,9 @@ const PluginForm = props => {
     const [file, setFile] = useState(undefined);
     const [thumbnail, setThumbnail] = useState(undefined)
     const [uploading, setUploading] = useState(false);
+    const [thumbnailLoading, setThumbnailLoading] = useState(false);
+
+    const [tags, setTags] = useState([]);
     const uploadButton = (
         <div>
             <Icon type={loading ? 'loading' : 'plus'} />
@@ -39,12 +42,13 @@ const PluginForm = props => {
 
     const zipHandleChange = (info) => {
         const { status } = info.file;
-        if (status !== 'uploading') {
-            console.log(info.file, info.fileList);
-        }
+
         if (status === 'done') {
+            setUploading(false);
             message.success(`${info.file.name} file uploaded successfully.`);
+
         } else if (status === 'error') {
+            setUploading(false);
             message.error(`${info.file.name} file upload failed.`);
         }
     }
@@ -59,12 +63,30 @@ const PluginForm = props => {
     }
     const handleBeforeUploadThumbnail = (thumbnail) => {
         setThumbnail(thumbnail);
-        return false;
+        console.log(thumbnail)
+        return true;
+    }
+
+    const onThumbnailChange = (info) => {
+        if (info.file.status === 'uploading') {
+            setThumbnailLoading(true);
+            return;
+        }
+
+        if (info.file.status === 'uploading') {
+            setThumbnailLoading(false);
+            return;
+        }
+    }
+
+    const handleTagChange = (value) => {
+        if (!tags.includes(value)) {
+            setTags(...tags, value);
+        }
     }
 
     const handleClick = (event) => {
         event.preventDefault();
-
         const formData = new FormData();
         formData.append('myFile', file);
 
@@ -75,7 +97,8 @@ const PluginForm = props => {
                 formData.append('name', values.name);
                 formData.append('version', values.version);
                 formData.append('description', values.description);
-                formData.append('thumbnail', thumbnail);
+                formData.append('thumbnail', values.thumbnail.file.thumbUrl);
+                formData.append('tags', values.tags);
                 reqwest({
                     url: 'http://192.168.43.68:3000/submit',
                     method: 'post',
@@ -88,7 +111,6 @@ const PluginForm = props => {
                         message.error('upload failed.');
                     },
                 });
-                setUploading(true);
             }
         });
         props.form.validateFields((err, values) => {
@@ -136,29 +158,17 @@ const PluginForm = props => {
                     {getFieldDecorator('thumbnail', {
                         rules: [{ required: true, message: 'Please upload a thumbnail for your plugin!' }]
                     })(
-                        <Upload name="logo" listType="picture-card" customRequest={handleBeforeUploadThumbnail}>
+                        <Upload name="logo" listType="picture-card" customRequest={handleBeforeUploadThumbnail} onChange={onThumbnailChange}>
                             {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                         </Upload>
                     )}
                 </Form.Item>
-                {/* <Form.Item label="ZipFile">
-                    {getFieldDecorator('zipfile', {
-                        rules: [{ required: true, message: 'Please upload a Zip file for your plugin!' }]
-                    })(
-                        <Upload {...props}>
-                            <Button>
-                                <Icon type="upload" /> Select File
-          </Button>
-                        </Upload>,
-                    )}
-                </Form.Item> */}
-
 
                 <Form.Item label="ZipFile">
                     {getFieldDecorator('zipfile', {
                         rules: [{ required: true, message: 'Please upload a Zip file for your plugin!' }]
                     })(
-                        <Dragger data={{ dataName: "SebLEMALADE" }} name="myFile" onChange={zipHandleChange} action="http://192.168.43.68:3000/submit" customRequest={handleCustomRequest} beforeUpload={handleBeforeUploadZip}>
+                        <Dragger data={{ dataName: "SebLEMALADE" }} name="myFile" onChange={zipHandleChange} customRequest={handleCustomRequest} beforeUpload={handleBeforeUploadZip}>
                             <p className="ant-upload-drag-icon">
                                 <Icon type="inbox" />
                             </p>
@@ -170,7 +180,7 @@ const PluginForm = props => {
                         </Dragger>,
                     )}
                 </Form.Item>
-                {/* <Form.Item label="Category">
+                <Form.Item label="Category">
                     {getFieldDecorator('category', {
                         rules: [{ required: true, message: 'Please select a category!' }]
                     })(
@@ -181,7 +191,21 @@ const PluginForm = props => {
                             }
                         </Select>
                     )}
-                </Form.Item> */}
+                </Form.Item>
+                <Form.Item label="Tags">
+                    {getFieldDecorator('tags', {
+                        rules: [{ required: true, message: 'Please select tag(s)!' }]
+                    })(
+                        <Select
+                            mode="tags"
+                            placeholder="Please select"
+                            onChange={handleTagChange}
+                            style={{ width: '100%' }}
+                        >
+                        </Select>
+                    )}
+                </Form.Item>
+
                 <Form.Item >
                     <Button
                         type="primary"
