@@ -1,6 +1,6 @@
 var multer = require('multer');
 var fs = require('fs');
-var AdmZip = require('adm-zip');
+var unzipper = require('unzipper')
 let pluginController = require('../controllers/plugin')
 
 var storage = multer.diskStorage({
@@ -16,10 +16,10 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 function fileUpload(req, res) {
-  console.log(req);
+  console.log(req.body);
   console.log(req.file);
-  var zip = new AdmZip(req.file.path);
-  zip.extractAllTo(req.file.destination, true);
+  fs.createReadStream(req.file.path).pipe(unzipper.Extract({ path: req.file.destination }))
+  fs.writeFileSync(req.file.destination + '/thumbnail.jpg', req.body.thumbnail);
   pluginController.createPlugin("moi", req.file.destination, "ok");
   res.status(200).json({
     message: "Message received",

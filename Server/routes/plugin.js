@@ -4,8 +4,11 @@ const router = express.Router();
 
 
 router.post("/create", PluginController.createPlugin);
-router.get("/", PluginController.getPlugins);
+router.get("/:id/serve", PluginController.getPlugins);
 router.get("/:id", PluginController.getPlugin);
+router.get("/", PluginController.getPlugins);
+
+
 
 
 
