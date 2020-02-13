@@ -1,48 +1,43 @@
 import React from 'react';
-import Plugin from './component/Plugin';
-import Workshop from './component/Workshop';
-import MainMenu from './component/MainMenu';
-import TestPlugin from './component/TestPlugin';
-import NavigationBar from './component/NavigationBar'
+import Plugin from './component/plugins/Plugin';
+import Workshop from './component/shop/workshop/Workshop';
+import MainMenu from './component/core/main-menu/MainMenu';
+import TestPlugin from './component/plugins/test-plugin/TestPlugin';
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch,} from 'react-router-dom';
 
 function App() {
-  return (
-    <div className="App">
+    return (
+        <div className="App">
 
-      <Router>
+            <Router>
 
-        <Switch>
+                <Switch>
 
-          <Route path="/form">
+                    <Route path="/form">
 
-            <Plugin />
+                        <Plugin/>
 
-          </Route>
+                    </Route>
 
-          <Route path="/testPlugin">
-            <TestPlugin />
-          </Route>
+                    <Route path="/testPlugin">
+                        <TestPlugin/>
+                    </Route>
 
-          <Route path="/workshop">
-            <Workshop />
-          </Route>
+                    <Route path="/workshop">
+                        <Workshop/>
+                    </Route>
 
-          <Route path="/">
-            <MainMenu />
-          </Route>
+                    <Route path="/">
+                        <MainMenu/>
+                    </Route>
 
-        </Switch>
-      </Router>
+                </Switch>
+            </Router>
 
 
-    </div>
-  );
+        </div>
+    );
 }
 
 export default App;
