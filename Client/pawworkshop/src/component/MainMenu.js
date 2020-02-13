@@ -6,13 +6,6 @@ const MainMenu = props => {
     return (
         <>
             <NavigationBar />
-            <div>
-                <Button><Link to="/form">Envoyer un plugin</Link></Button>
-                <Button><Link to="/workshop">Visiter le magasin</Link></Button>
-                <Button><Link to="/testPlugin">TEST PLUGIN</Link></Button>
-
-
-            </div>
         </>
     );
 };

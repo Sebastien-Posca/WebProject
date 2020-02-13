@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'antd';
+import NavigationBar from './NavigationBar';
 
 const { Meta } = Card;
 const Workshop = props => {
@@ -38,12 +39,16 @@ const Workshop = props => {
     }, [])
 
     return (
-        <div>
-            {/* {loading ? <div> Nothing Yet </div> : <>{[result].map((item) => {
+        <>
+            <NavigationBar />
+            <div>
+
+                {/* {loading ? <div> Nothing Yet </div> : <>{[result].map((item) => {
                 return printPlugins(item);
             })}</>} */}
 
-        </div>
+            </div>
+        </>
     );
 };
 

@@ -3,6 +3,7 @@ import Plugin from './component/Plugin';
 import Workshop from './component/Workshop';
 import MainMenu from './component/MainMenu';
 import TestPlugin from './component/TestPlugin';
+import NavigationBar from './component/NavigationBar'
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -13,12 +14,15 @@ import {
 function App() {
   return (
     <div className="App">
+
       <Router>
 
         <Switch>
 
           <Route path="/form">
+
             <Plugin />
+
           </Route>
 
           <Route path="/testPlugin">
