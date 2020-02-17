@@ -34,7 +34,6 @@ const PluginForm = props => {
     const [tags, setTags] = useState([]);
     const [inputVisible, setInputVisible] = useState(false)
     const [inputValue, setInputValue] = useState("")
-    console.log(tags);
 
     const uploadButton = (
         <div>
@@ -76,7 +75,7 @@ const PluginForm = props => {
             return;
         }
 
-        if (info.file.status === 'uploading') {
+        if (info.file.status !== 'uploading') {
             setThumbnailLoading(false);
             return;
         }
@@ -99,13 +98,17 @@ const PluginForm = props => {
     const handleInputConfirm = () => {
         console.log('flag')
         if (inputValue && tags.indexOf(inputValue) === -1) {
-            setTags([...tags, inputValue]);
+            const newTags = [];
+            newTags.push(...tags);
+            newTags.push(inputValue)
+            setTags(newTags);
         }
         setInputVisible(false);
         setInputValue('');
     };
 
     // const saveInputRef = input => (this.input = input);
+
     // END
     const handleClick = (event) => {
         event.preventDefault();
@@ -123,8 +126,9 @@ const PluginForm = props => {
                     formData.append('thumbnail', values.thumbnail.file.thumbUrl);
                 }
                 formData.append('categorie', values.category);
-                formData.append('tags', values.tags);
-
+                console.log(tags);
+                formData.append('tags', JSON.stringify(tags));
+                setUploading(true);
                 reqwest({
                     url: 'http://192.168.43.68:3000/submit',
                     method: 'post',
@@ -132,9 +136,11 @@ const PluginForm = props => {
                     data: formData,
                     success: () => {
                         message.success('upload successfully.');
+                        setUploading(false);
                     },
                     error: () => {
                         message.error('upload failed.');
+                        setUploading(false);
                     },
                 });
             }
@@ -211,7 +217,7 @@ const PluginForm = props => {
                         rules: [{ required: true, message: 'Please select a category!' }]
 
                     })(
-                        <Select defaultValue={categories[0]}>
+                        <Select>
                             {categories.map((item) => {
                                 return <Option value={item}>{item}</Option>
                             })
@@ -239,7 +245,7 @@ const PluginForm = props => {
                     })(
                         <div>
                             {tags.map((item) => {
-                                return <Tag key={item} closable={true} onClose={handleTagClose(item)}></Tag>
+                                return <Tag key={item} closable={true} onClose={() => handleTagClose(item)}>{item}</Tag>
                             })}
                             {inputVisible && (
                                 <Input

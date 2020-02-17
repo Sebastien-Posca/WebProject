@@ -16,7 +16,7 @@ const Workshop = props => {
     const dispatch = useDispatch();
     const fetchPlugin = async () => {
 
-        let response = await fetch('http://192.168.43.68:3000/plugin')
+        let response = await fetch('http://192.168.43.68:3000/plugins')
         let results = await response.json();
 
         console.log(results);

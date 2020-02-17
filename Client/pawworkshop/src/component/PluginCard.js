@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Button, Tag } from 'antd';
+import { Card, Button, Tag, Icon } from 'antd';
 import './PluginCard.css';
 import { Link } from 'react-router-dom';
 
@@ -28,8 +28,12 @@ const PluginCard = props => {
                     return <Tag>{item}</Tag>
                 })}
             </div>
-
             <Button onClick={handleClick} type="primary">Détails</Button>
+
+            <div className="divLikes">
+                <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" />
+                <label>50</label>
+            </div>
         </Card>
     );
 };

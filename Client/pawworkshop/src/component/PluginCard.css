@@ -1,9 +1,13 @@
 .pluginCardWorkshop {
-    width: 30%;
+    width: 20%;
     margin: 1%;
     display: inline-block;
 }
 
 .pluginTags {
     margin: 3%;
+}
+
+.divLikes {
+    text-align: end;
 }
