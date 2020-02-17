@@ -12,19 +12,21 @@ exports.createPlugin = (user, path, name, moduleName, description, tags, categor
     plugin.path = path;
     plugin.name = name;
     plugin.description = description;
+    console.log(tags);
     plugin.tags = tags;
     plugin.category = category;
     plugin.version = version;
     plugin.save((err, plugin) => {
-        if (err) console.log(err);
-        console.log(plugin);
-        ;
+        if (err) return res.status(500).send(err);
+        return res.status(201).send(plugin);
     });
 }
 
 
 exports.getPlugins = (req, res) => {
     Plugin.find({}, function (err, users) {
+        if (err) return res.status(500).send(err);
+
         var pluginMap = [];
 
         users.forEach(function (plugin) {
@@ -37,19 +39,21 @@ exports.getPlugins = (req, res) => {
             pluginMap.push(plugin);
         });
 
-        res.send(pluginMap);
+        return res.status(200).send(pluginMap);
     });
 }
 
 exports.getPlugin = (req, res) => {
-    Plugin.findById(req.params.id).then((doc) => {
-        res.send(doc);
+    Plugin.findById(req.params.id).then((err, doc) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send(doc);
     });
 }
 
 exports.servePlugin = (req, res) => {
-    Plugin.findById(req.params.id).then((doc) => {
+    Plugin.findById(req.params.id).then((err, doc) => {
+        if (err) return res.status(500).send(err);
         express.static(path.join(__dirname, "../apps", doc.path))
-        res.sendFile(path.join(__dirname, "../apps", doc.path, req.params.filename));
+        return res.sendFile(path.join(__dirname, "../apps", doc.path, req.params.filename));
     });
 }
