@@ -5,10 +5,11 @@ var express = require("express");
 
 
 
-exports.createPlugin = (user, path, name, moduleName, description, tags, category, version) => {
+exports.createPlugin = (user, localPath, path, name, moduleName, description, tags, category, version) => {
     return new Promise((resolve, reject) => {
         let plugin = new Plugin();
         plugin.moduleName = moduleName;
+        plugin.localPath = localPath;
         plugin.user = user;
         plugin.path = path;
         plugin.name = name;
@@ -32,7 +33,7 @@ exports.getPlugins = (req, res) => {
         var pluginMap = [];
 
         users.forEach(function (plugin) {
-            let thumbnail = fs.readFileSync(plugin.path + '/thumbnail.jpg', "utf8")
+            let thumbnail = fs.readFileSync(plugin.localPath + '/thumbnail.jpg', "utf8")
             let pair;
             if (!thumbnail.startsWith('data:image')) {
                 pair = { thumbnail: "data:image/jpg;base64," + thumbnail }
@@ -54,13 +55,5 @@ exports.getPlugin = (req, res) => {
     Plugin.findById(req.params.id).then((doc, err) => {
         if (err) return res.status(500).send(err);
         return res.status(200).send(doc);
-    });
-}
-
-exports.servePlugin = (req, res) => {
-    Plugin.findById(req.params.id).then((doc, err) => {
-        if (err) return res.status(500).send(err);
-        express.static(path.join(__dirname, "../", doc.path))
-        return res.sendFile(path.join(__dirname, "../", doc.path, req.params.filename));
     });
 }

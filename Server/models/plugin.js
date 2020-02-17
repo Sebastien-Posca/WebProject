@@ -4,6 +4,7 @@ const mongoose = require('mongoose'),
 
 const PluginSchema = new Schema({
     user: { type: String, required: true },
+    localPath: { type: String, required: true },
     path: { type: String, required: true },
     name: { type: String, required: true },
     moduleName: { type: String, required: true },
