@@ -60,7 +60,7 @@ exports.getPlugin = (req, res) => {
 exports.servePlugin = (req, res) => {
     Plugin.findById(req.params.id).then((doc, err) => {
         if (err) return res.status(500).send(err);
-        express.static(path.join(__dirname, "../apps", doc.path))
-        return res.sendFile(path.join(__dirname, "../apps", doc.path, req.params.filename));
+        express.static(path.join(__dirname, "../", doc.path))
+        return res.sendFile(path.join(__dirname, "../", doc.path, req.params.filename));
     });
 }
