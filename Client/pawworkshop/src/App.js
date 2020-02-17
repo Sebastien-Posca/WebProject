@@ -1,11 +1,10 @@
 import React from 'react';
-import Plugin from './component/Plugin';
-import Workshop from './component/Workshop';
-import MainMenu from './component/MainMenu';
-import TestPlugin from './component/TestPlugin';
+import Plugin from './component/plugins/Plugin';
+import Workshop from './component/shop/workshop/Workshop';
+import MainMenu from './component/core/main-menu/MainMenu';
 import PluginSummary from './component/PluginSummary';
 
-import NavigationBar from './component/NavigationBar'
+import NavigationBar from './component/core/navigation-bar/NavigationBar'
 import store from './store/index';
 import './App.css';
 import {
@@ -28,10 +27,10 @@ function App() {
               <Plugin />
 
             </Route>
-
+            {/* 
             <Route path="/testPlugin">
               <TestPlugin />
-            </Route>
+            </Route> */}
 
             <Route path="/workshop">
               <Workshop />

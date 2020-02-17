@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { useSelector, useDispatch } from 'react-redux';
-import NavigationBar from './NavigationBar';
-import PluginCard from './PluginCard';
+import NavigationBar from '../../core/navigation-bar/NavigationBar';
+import PluginCard from '../../PluginCard';
 import { Spin } from 'antd';
 
 const Workshop = props => {
