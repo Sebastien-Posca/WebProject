@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Form, Icon, Input, InputNumber, message, Select, Upload} from 'antd';
-import React, { useState } from 'react';
-import { Form, Icon, Input, Button, InputNumber, Upload, Select, message, Tag } from 'antd';
+import {Button, Form, Icon, Input, InputNumber, message, Select, Tag, Upload} from 'antd';
 import 'antd/dist/antd.css'
 import Dragger from 'antd/lib/upload/Dragger';
 import './PluginForm.css';
@@ -11,7 +9,7 @@ import {BACKEND_ROOT_PATH} from "../../../constants";
 
 const {Option} = Select;
 const {TextArea} = Input;
-const categories = ['Modulation', 'Distortion', 'Egalisation', 'Reverb', 'Accordeur']
+const categories = ['Modulation', 'Distortion', 'Egalisation', 'Reverb', 'Accordeur'];
 
 const formItemLayout = {
     labelCol: {span: 6},
@@ -23,18 +21,18 @@ const PluginForm = props => {
 
 
     Form.create();
-    const {getFieldDecorator, getFieldsError, getFieldError, isFieldTouched} = props.form
+    const {getFieldDecorator, getFieldsError, getFieldError, isFieldTouched} = props.form;
     const [imageUrl, setImageUrl] = useState(false);
 
     const [loading, setLoading] = useState(false);
 
     const [file, setFile] = useState(undefined);
-    const [thumbnail, setThumbnail] = useState(undefined)
+    const [thumbnail, setThumbnail] = useState(undefined);
     const [uploading, setUploading] = useState(false);
     const [thumbnailLoading, setThumbnailLoading] = useState(false);
     const [tags, setTags] = useState([]);
-    const [inputVisible, setInputVisible] = useState(false)
-    const [inputValue, setInputValue] = useState("")
+    const [inputVisible, setInputVisible] = useState(false);
+    const [inputValue, setInputValue] = useState("");
 
     const uploadButton = (
         <div>
@@ -54,21 +52,21 @@ const PluginForm = props => {
             setUploading(false);
             message.error(`${info.file.name} file upload failed.`);
         }
-    }
+    };
 
     const handleCustomRequest = (info) => {
         console.log(info)
-    }
+    };
 
     const handleBeforeUploadZip = (file) => {
         setFile(file);
         return false;
-    }
+    };
     const handleBeforeUploadThumbnail = (thumbnail) => {
         setThumbnail(thumbnail);
-        console.log(thumbnail)
+        console.log(thumbnail);
         return true;
-    }
+    };
 
     const onThumbnailChange = (info) => {
         if (info.file.status === 'uploading') {
@@ -78,14 +76,14 @@ const PluginForm = props => {
 
         if (info.file.status !== 'uploading') {
             setThumbnailLoading(false);
-            return;
+
         }
-    }
+    };
 
     const handleTagClose = (removedTag) => {
         const newTags = tags.filter(tag => tag !== removedTag);
         setTags(newTags);
-    }
+    };
 
     // START
     const showInput = () => {
@@ -97,11 +95,11 @@ const PluginForm = props => {
     };
 
     const handleInputConfirm = () => {
-        console.log('flag')
+        console.log('flag');
         if (inputValue && tags.indexOf(inputValue) === -1) {
             const newTags = [];
             newTags.push(...tags);
-            newTags.push(inputValue)
+            newTags.push(inputValue);
             setTags(newTags);
         }
         setInputVisible(false);
@@ -153,7 +151,7 @@ const PluginForm = props => {
         });
 
 
-    }
+    };
 
     return (
         <div className="content">
