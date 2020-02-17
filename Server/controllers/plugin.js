@@ -17,8 +17,8 @@ exports.createPlugin = (user, path, name, moduleName, description, tags, categor
     plugin.category = category;
     plugin.version = version;
     plugin.save((err, plugin) => {
-        if (err) return res.status(500).send(err);
-        return res.status(201).send(plugin);
+        if (err) return err;
+        return 0;
     });
 }
 

@@ -23,13 +23,21 @@ exports.fileUpload = (req, res) => {
     }
     let buffer = fs.readFileSync(req.file.destination + '/main.json');
     let main = JSON.parse(buffer);
-    fs.writeFileSync(req.file.destination + '/thumbnail.jpg', req.body.thumbnail);
-    if (req.body.thumbnail == undefined) {
-
+    if (req.body.thumbnail != undefined) {
+      fs.writeFileSync(req.file.destination + '/thumbnail.jpg', req.body.thumbnail);
+    } else {
+      let buff = fs.readFileSync(req.file.destination + "/img/unknown.jpg", { encoding: 'base64' });
+      fs.writeFileSync(req.file.destination + '/thumbnail.jpg', buff);
     }
-    pluginController.createPlugin('moi', req.file.destination, req.body.name, main.name, req.body.description, req.body.tags, req.body.categorie, req.body.version);
-    return res.status(201).json({
-      message: "Message received",
-    });
+    let err = await pluginController.createPlugin('moi', req.file.destination, req.body.name, main.name, req.body.description, req.body.tags, req.body.categorie, req.body.version, res);
+    console.log(err);
+
+    if (err == 0) {
+      return res.status(201).json({
+        message: "Message received",
+      });
+    }
+    return res.status(500).send(err)
+
   })
 }
