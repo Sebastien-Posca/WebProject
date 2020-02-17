@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 3001
 const userRoutes = require('../routes/user')
 const submitRoutes = require('../routes/submit')
 const pluginRoutes = require('../routes/plugin')
@@ -47,4 +47,3 @@ app.use('/user', userRoutes);
 app.use('/submit', submitRoutes);
 
 app.use('/plugins', pluginRoutes);
-
