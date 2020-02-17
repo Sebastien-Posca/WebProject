@@ -6,7 +6,7 @@
 /out-tsc
 
 
-/apps/plugins
+/plugins
 
 # dependencies
 /node_modules

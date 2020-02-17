@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Form, Icon, Input, InputNumber, message, Select, Upload} from 'antd';
+import React, { useState } from 'react';
+import { Form, Icon, Input, Button, InputNumber, Upload, Select, message, Tag } from 'antd';
 import 'antd/dist/antd.css'
 import Dragger from 'antd/lib/upload/Dragger';
 import './PluginForm.css';
@@ -30,8 +32,10 @@ const PluginForm = props => {
     const [thumbnail, setThumbnail] = useState(undefined)
     const [uploading, setUploading] = useState(false);
     const [thumbnailLoading, setThumbnailLoading] = useState(false);
-
     const [tags, setTags] = useState([]);
+    const [inputVisible, setInputVisible] = useState(false)
+    const [inputValue, setInputValue] = useState("")
+
     const uploadButton = (
         <div>
             <Icon type={loading ? 'loading' : 'plus'}/>
@@ -72,18 +76,41 @@ const PluginForm = props => {
             return;
         }
 
-        if (info.file.status === 'uploading') {
+        if (info.file.status !== 'uploading') {
             setThumbnailLoading(false);
             return;
         }
     }
 
-    const handleTagChange = (value) => {
-        if (!tags.includes(value)) {
-            setTags(...tags, value);
-        }
+    const handleTagClose = (removedTag) => {
+        const newTags = tags.filter(tag => tag !== removedTag);
+        setTags(newTags);
     }
 
+    // START
+    const showInput = () => {
+        setInputVisible(true);
+    };
+
+    const handleInputChange = e => {
+        setInputValue(e.target.value);
+    };
+
+    const handleInputConfirm = () => {
+        console.log('flag')
+        if (inputValue && tags.indexOf(inputValue) === -1) {
+            const newTags = [];
+            newTags.push(...tags);
+            newTags.push(inputValue)
+            setTags(newTags);
+        }
+        setInputVisible(false);
+        setInputValue('');
+    };
+
+    // const saveInputRef = input => (this.input = input);
+
+    // END
     const handleClick = (event) => {
         event.preventDefault();
         const formData = new FormData();
@@ -96,9 +123,13 @@ const PluginForm = props => {
                 formData.append('name', values.name);
                 formData.append('version', values.version);
                 formData.append('description', values.description);
-                formData.append('thumbnail', values.thumbnail.file.thumbUrl);
+                if (values.thumbnail) {
+                    formData.append('thumbnail', values.thumbnail.file.thumbUrl);
+                }
                 formData.append('categorie', values.category);
-                formData.append('tags', values.tags);
+                console.log(tags);
+                formData.append('tags', JSON.stringify(tags));
+                setUploading(true);
                 reqwest({
                     url: `${BACKEND_ROOT_PATH}/submit`,
                     method: 'post',
@@ -106,9 +137,11 @@ const PluginForm = props => {
                     data: formData,
                     success: () => {
                         message.success('upload successfully.');
+                        setUploading(false);
                     },
                     error: () => {
                         message.error('upload failed.');
+                        setUploading(false);
                     },
                 });
             }
@@ -187,7 +220,7 @@ const PluginForm = props => {
                         rules: [{required: true, message: 'Please select a category!'}]
 
                     })(
-                        <Select defaultValue={categories[0]}>
+                        <Select>
                             {categories.map((item) => {
                                 return <Option value={item}>{item}</Option>
                             })
@@ -195,7 +228,7 @@ const PluginForm = props => {
                         </Select>
                     )}
                 </Form.Item>
-                <Form.Item label="Tags">
+                {/* <Form.Item label="Tags">
                     {getFieldDecorator('tags', {
                         rules: [{required: true, message: 'Please select tag(s)!'}]
                     })(
@@ -206,6 +239,34 @@ const PluginForm = props => {
                             style={{width: '100%'}}
                         >
                         </Select>
+                    )}
+                </Form.Item> */}
+
+                <Form.Item label="Tags">
+                    {getFieldDecorator('tags', {
+                        rules: [{required: true, message: 'Please select tag(s)!'}]
+                    })(
+                        <div>
+                            {tags.map((item) => {
+                                return <Tag key={item} closable={true} onClose={() => handleTagClose(item)}>{item}</Tag>
+                            })}
+                            {inputVisible && (
+                                <Input
+                                    type="text"
+                                    size="small"
+                                    style={{width: 78}}
+                                    value={inputValue}
+                                    onChange={handleInputChange}
+                                    onBlur={handleInputConfirm}
+                                    onPressEnter={handleInputConfirm}
+                                />
+                            )}
+                            {!inputVisible && (
+                                <Tag onClick={showInput} style={{background: '#fff', borderStyle: 'dashed'}}>
+                                    <Icon type="plus"/> New Tag
+                                </Tag>
+                            )}
+                        </div>
                     )}
                 </Form.Item>
 

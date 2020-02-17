@@ -46,5 +46,6 @@ app.use('/user', userRoutes);
 
 app.use('/submit', submitRoutes);
 
-app.use('/plugin', pluginRoutes);
+app.use('/plugins', pluginRoutes);
 
+app.use('/plugin', express.static(__dirname + '/..' + '/plugins'));

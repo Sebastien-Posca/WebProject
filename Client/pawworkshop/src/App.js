@@ -3,11 +3,11 @@ import Plugin from './component/plugins/Plugin';
 import Workshop from './component/shop/workshop/Workshop';
 import MainMenu from './component/core/main-menu/MainMenu';
 import PluginSummary from './component/PluginSummary';
+import TestPlugin from './component/plugins/test-plugin/TestPlugin';
 import store from './store/index';
 import './App.css';
 import {BrowserRouter as Router, Route, Switch,} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import TestPlugin from "./component/plugins/test-plugin/TestPlugin";
 
 function App() {
     return (
@@ -22,7 +22,8 @@ function App() {
                             <Plugin/>
 
                         </Route>
-                        <Route path="/testPlugin/:idPlugin">
+
+                        <Route path="/testPlugin">
                             <TestPlugin/>
                         </Route>
 

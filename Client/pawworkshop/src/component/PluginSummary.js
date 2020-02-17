@@ -8,6 +8,7 @@ const PluginSummary = props => {
     console.log(selectedPlugin)
     return (
         <>
+            <img alt="example" src={selectedPlugin.thumbnail} />
             <div className="pluginCard">
 
             </div>

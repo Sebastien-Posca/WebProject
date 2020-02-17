@@ -1,4 +1,49 @@
 .pluginCardWorkshop {
-    width: 30%;
+    width: 20%;
     margin: 1%;
+    display: inline-block;
+}
+
+.pluginTags {
+    margin: 3%;
+}
+
+.pluginDescription {
+    margin-bottom: 10px;
+}
+
+.comments {
+    float: left;
+    width: fit-content;
+    text-align: start;
+
+}
+
+.ant-card-body {
+    padding: 10px;
+}
+
+.likes {
+    float: right;
+    width: fit-content;
+    text-align: end;
+}
+
+.comments,
+.likes {
+    margin: 5px
+}
+
+.cardIcons {
+    margin-right: 3px;
+}
+
+.metaCardSection {
+    margin-bottom: 10px;
+}
+
+.pluginCommentLikes {
+    display: inline-block;
+    border-top: 1px solid #C0C0C0C0;
+    width: 100%;
 }
