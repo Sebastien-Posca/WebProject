@@ -6,6 +6,7 @@ var express = require("express");
 
 
 exports.createPlugin = (user, path, name, moduleName, description, tags, category, version) => {
+  return new Promise((resolve, reject) => {
     let plugin = new Plugin();
     plugin.moduleName = moduleName;
     plugin.user = user;
@@ -17,9 +18,10 @@ exports.createPlugin = (user, path, name, moduleName, description, tags, categor
     plugin.category = category;
     plugin.version = version;
     plugin.save((err, plugin) => {
-        if (err) return err;
-        return 0;
+        if (err) reject(err);
+        resolve(plugin);
     });
+  })
 }
 
 

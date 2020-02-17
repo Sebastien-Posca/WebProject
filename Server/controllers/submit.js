@@ -29,15 +29,12 @@ exports.fileUpload = (req, res) => {
       let buff = fs.readFileSync(req.file.destination + "/img/unknown.jpg", { encoding: 'base64' });
       fs.writeFileSync(req.file.destination + '/thumbnail.jpg', buff);
     }
-    let err = await pluginController.createPlugin('moi', req.file.destination, req.body.name, main.name, req.body.description, req.body.tags, req.body.categorie, req.body.version, res);
-    console.log(err);
-
-    if (err == 0) {
+    pluginController.createPlugin('moi', req.file.destination, req.body.name, main.name, req.body.description, req.body.tags, req.body.categorie, req.body.version, res).then((plugin) => {
       return res.status(201).json({
         message: "Message received",
       });
-    }
-    return res.status(500).send(err)
-
+    }).catch((error) => {
+      return res.status(500).send(error)
+    });
   })
 }
