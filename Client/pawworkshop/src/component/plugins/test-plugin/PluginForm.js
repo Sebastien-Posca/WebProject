@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Icon, Input, Button, InputNumber, Upload, Select, message } from 'antd';
+import { Form, Icon, Input, Button, InputNumber, Upload, Select, message, Tag } from 'antd';
 import 'antd/dist/antd.css'
 import Dragger from 'antd/lib/upload/Dragger';
 import './PluginForm.css';
@@ -31,8 +31,11 @@ const PluginForm = props => {
     const [thumbnail, setThumbnail] = useState(undefined)
     const [uploading, setUploading] = useState(false);
     const [thumbnailLoading, setThumbnailLoading] = useState(false);
-
     const [tags, setTags] = useState([]);
+    const [inputVisible, setInputVisible] = useState(false)
+    const [inputValue, setInputValue] = useState("")
+    console.log(tags);
+
     const uploadButton = (
         <div>
             <Icon type={loading ? 'loading' : 'plus'} />
@@ -79,12 +82,31 @@ const PluginForm = props => {
         }
     }
 
-    const handleTagChange = (value) => {
-        if (!tags.includes(value)) {
-            setTags(...tags, value);
-        }
+    const handleTagClose = (removedTag) => {
+        const newTags = tags.filter(tag => tag !== removedTag);
+        setTags(newTags);
     }
 
+    // START
+    const showInput = () => {
+        setInputVisible(true);
+    };
+
+    const handleInputChange = e => {
+        setInputValue(e.target.value);
+    };
+
+    const handleInputConfirm = () => {
+        console.log('flag')
+        if (inputValue && tags.indexOf(inputValue) === -1) {
+            setTags([...tags, inputValue]);
+        }
+        setInputVisible(false);
+        setInputValue('');
+    };
+
+    // const saveInputRef = input => (this.input = input);
+    // END
     const handleClick = (event) => {
         event.preventDefault();
         const formData = new FormData();
@@ -97,9 +119,12 @@ const PluginForm = props => {
                 formData.append('name', values.name);
                 formData.append('version', values.version);
                 formData.append('description', values.description);
-                formData.append('thumbnail', values.thumbnail.file.thumbUrl);
+                if (values.thumbnail) {
+                    formData.append('thumbnail', values.thumbnail.file.thumbUrl);
+                }
                 formData.append('categorie', values.category);
                 formData.append('tags', values.tags);
+
                 reqwest({
                     url: 'http://192.168.43.68:3000/submit',
                     method: 'post',
@@ -194,7 +219,7 @@ const PluginForm = props => {
                         </Select>
                     )}
                 </Form.Item>
-                <Form.Item label="Tags">
+                {/* <Form.Item label="Tags">
                     {getFieldDecorator('tags', {
                         rules: [{ required: true, message: 'Please select tag(s)!' }]
                     })(
@@ -205,6 +230,34 @@ const PluginForm = props => {
                             style={{ width: '100%' }}
                         >
                         </Select>
+                    )}
+                </Form.Item> */}
+
+                <Form.Item label="Tags">
+                    {getFieldDecorator('tags', {
+                        rules: [{ required: true, message: 'Please select tag(s)!' }]
+                    })(
+                        <div>
+                            {tags.map((item) => {
+                                return <Tag key={item} closable={true} onClose={handleTagClose(item)}></Tag>
+                            })}
+                            {inputVisible && (
+                                <Input
+                                    type="text"
+                                    size="small"
+                                    style={{ width: 78 }}
+                                    value={inputValue}
+                                    onChange={handleInputChange}
+                                    onBlur={handleInputConfirm}
+                                    onPressEnter={handleInputConfirm}
+                                />
+                            )}
+                            {!inputVisible && (
+                                <Tag onClick={showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
+                                    <Icon type="plus" /> New Tag
+          </Tag>
+                            )}
+                        </div>
                     )}
                 </Form.Item>
 

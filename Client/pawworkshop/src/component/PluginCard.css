@@ -1,4 +1,9 @@
 .pluginCardWorkshop {
     width: 30%;
     margin: 1%;
+    display: inline-block;
+}
+
+.pluginTags {
+    margin: 3%;
 }

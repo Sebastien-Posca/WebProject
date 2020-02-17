@@ -3,7 +3,7 @@ import Plugin from './component/plugins/Plugin';
 import Workshop from './component/shop/workshop/Workshop';
 import MainMenu from './component/core/main-menu/MainMenu';
 import PluginSummary from './component/PluginSummary';
-
+import TestPlugin from './component/plugins/test-plugin/TestPlugin';
 import NavigationBar from './component/core/navigation-bar/NavigationBar'
 import store from './store/index';
 import './App.css';
@@ -27,10 +27,10 @@ function App() {
               <Plugin />
 
             </Route>
-            {/* 
+
             <Route path="/testPlugin">
               <TestPlugin />
-            </Route> */}
+            </Route>
 
             <Route path="/workshop">
               <Workshop />
