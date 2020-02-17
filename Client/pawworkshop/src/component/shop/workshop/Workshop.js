@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, {useEffect, useState} from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import NavigationBar from '../../core/navigation-bar/NavigationBar';
 import PluginCard from '../../PluginCard';
-import { Spin } from 'antd';
+import {Spin} from 'antd';
+import {BACKEND_ROOT_PATH} from "../../../constants";
 
 const Workshop = props => {
 
@@ -16,7 +16,7 @@ const Workshop = props => {
     const dispatch = useDispatch();
     const fetchPlugin = async () => {
 
-        let response = await fetch('http://192.168.43.68:3000/plugin')
+        let response = await fetch(`${BACKEND_ROOT_PATH}/plugin`)
         let results = await response.json();
 
         console.log(results);

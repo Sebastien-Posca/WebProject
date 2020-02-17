@@ -3,53 +3,47 @@ import Plugin from './component/plugins/Plugin';
 import Workshop from './component/shop/workshop/Workshop';
 import MainMenu from './component/core/main-menu/MainMenu';
 import PluginSummary from './component/PluginSummary';
-
-import NavigationBar from './component/core/navigation-bar/NavigationBar'
 import store from './store/index';
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom';
-import { Provider } from 'react-redux';
+import {BrowserRouter as Router, Route, Switch,} from 'react-router-dom';
+import {Provider} from 'react-redux';
+import TestPlugin from "./component/plugins/test-plugin/TestPlugin";
 
 function App() {
-  return (
-    <div className="App">
-      <Provider store={store}>
-        <Router>
+    return (
+        <div className="App">
+            <Provider store={store}>
+                <Router>
 
-          <Switch>
+                    <Switch>
 
-            <Route path="/form">
+                        <Route path="/form">
 
-              <Plugin />
+                            <Plugin/>
 
-            </Route>
-            {/* 
-            <Route path="/testPlugin">
-              <TestPlugin />
-            </Route> */}
+                        </Route>
+                        <Route path="/testPlugin/:idPlugin">
+                            <TestPlugin/>
+                        </Route>
 
-            <Route path="/workshop">
-              <Workshop />
-            </Route>
+                        <Route path="/workshop">
+                            <Workshop/>
+                        </Route>
 
-            <Route path="/product/:id">
-              <PluginSummary />
-            </Route>
+                        <Route path="/product/:id">
+                            <PluginSummary/>
+                        </Route>
 
-            <Route path="/">
-              <MainMenu />
-            </Route>
+                        <Route path="/">
+                            <MainMenu/>
+                        </Route>
 
-          </Switch>
-        </Router>
-      </Provider>
+                    </Switch>
+                </Router>
+            </Provider>
 
-    </div>
-  );
+        </div>
+    );
 }
 
 export default App;

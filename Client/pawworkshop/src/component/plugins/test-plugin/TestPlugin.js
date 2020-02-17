@@ -1,11 +1,27 @@
 import React, {useEffect} from 'react';
 import NavigationBar from '../../core/navigation-bar/NavigationBar';
+import {useParams} from "react-router";
 import './TestPlugin.css';
+import {BACKEND_ROOT_PATH} from "../../../constants";
 
 export const TestPlugin = () => {
+    let {idPlugin} = useParams();
+    let plugin = undefined;
     useEffect(() => {
-        loadPluginTest('https://mainline.i3s.unice.fr/PedalEditor/Back-End/functional-pedals/published/freeverbMichelBuffa/', 'FaustfreeverbMichelBuffa');
+        console.log(idPlugin);
+        fetchPlugin(idPlugin).then(pluginRes => {
+            plugin = pluginRes;
+            loadPluginTest(`${BACKEND_ROOT_PATH}/${pluginRes.path}`, pluginRes.moduleName);
+        });
     });
+    let state;
+    let popupOpened = 'none';
+    let removePopupTimer;
+
+    const fetchPlugin = async (id) => {
+        const response = await fetch(`${BACKEND_ROOT_PATH}/plugins/${id}`);
+        return await response.json();
+    };
 
     function loadPluginTest(pluginUrl, pluginName) {
         loadScriptThen('https://mainline.i3s.unice.fr/WebAudioPluginBank/bower_components/webaudio-controls2/webcomponents-lite.js', () => {
@@ -13,55 +29,86 @@ export const TestPlugin = () => {
                 loadScriptThen(pluginUrl + '/main.js', () => {
                     const ctx = new AudioContext();
                     const player = document.getElementById("soundSample");
+                    console.log(player);
                     player.onplay = () => {
                         ctx.resume().then(() => {
-                            console.log('Playback resumed successfully');
+                            console.info('Playback resumed successfully');
                         });
                     };
                     const mediaSource = ctx.createMediaElementSource(player);
                     const plugin = new window[pluginName](ctx, pluginUrl);
-                    let state;
-                    plugin.load().then((node) => {
-                        console.log('Plugin loaded');
-                        console.log(node);
+                    plugin.load().then((audioWorkletNode) => {
                         plugin.loadGui().then((elem) => {
-                            console.log('Load Gui');
                             document.getElementById('plugin-preview-container').appendChild(elem);
                             document.querySelector("#save").addEventListener('click', () => {
-                                node.getState()
+                                audioWorkletNode.getState()
                                     .then((data) => {
                                         state = data;
-                                        console.log("State saved :", data);
                                     })
                             });
-                            document.querySelector("#load").addEventListener('click', () => {
-                                node.setState(state).then((data) => {
-                                    console.log("State restored :", data)
-                                })
+                            document.querySelector("#load").addEventListener('click', async () => {
+                                if (state)
+                                    try {
+                                        await audioWorkletNode.setState(JSON.stringify(state));
+                                    } catch (e) {
+                                        displayErrorLoadingState();
+                                    }
+                                else
+                                    askForSaveState();
                             });
                         });
-                        mediaSource.connect(node);
-                        node.connect(ctx.destination);
+                        mediaSource.connect(audioWorkletNode);
+                        audioWorkletNode.connect(ctx.destination);
                     });
                 });
             });
         });
     }
 
+    function displayErrorLoadingState() {
+        if (popupOpened) removePopup();
+        popupOpened = 'errorStateLoad';
+        document.getElementsByTagName('body')[0].insertAdjacentHTML('beforeend',
+            `<div class="snackbar error popFromBottom">
+            Le plugin a échoué à charger son état ou ne permet pas cette fonctionnalité
+        </div>`);
+        removePopupTimer = setTimeout(removePopup, 5000);
+    }
+
+    function askForSaveState() {
+        if (popupOpened) removePopup();
+        popupOpened = 'warningNoState';
+        document.getElementsByTagName('body')[0].insertAdjacentHTML('beforeend',
+            `<div class="snackbar warning popFromBottom">
+                    Aucun état sauvegardé
+            </div>`);
+        removePopupTimer = setTimeout(removePopup, 5000);
+    }
+
+    function removePopup() {
+        if (removePopupTimer) clearTimeout(removePopupTimer);
+        document.querySelectorAll('.snackbar').forEach(elem => {
+            elem.remove();
+        });
+        popupOpened = undefined;
+    }
+
     return (<>
         <NavigationBar/>
-        <div className="plugin-test-container">
-            <audio
-                crossOrigin="anonymous"
-                src="https://mainline.i3s.unice.fr/PedalEditor/Back-End/functional-pedals/published/freeverbMichelBuffa/CleanGuitarRiff.mp3"
-                id="soundSample" controls loop/>
-            <div id="plugin-preview-container">
+        {plugin ? <div className="loading"></div> :
+            <div className="plugin-test-container">
+                <audio
+                    crossOrigin="anonymous"
+                    src="https://mainline.i3s.unice.fr/PedalEditor/Back-End/functional-pedals/published/freeverbMichelBuffa/CleanGuitarRiff.mp3"
+                    id="soundSample" controls loop/>
+                <div id="plugin-preview-container">
+                </div>
+                <div className="plugin-control">
+                    <button className={"ant-btn ant-btn-primary"} id="save">Save current state</button>
+                    <button className={"ant-btn ant-btn-primary"} id="load">Load last saved state</button>
+                </div>
             </div>
-            <div className="plugin-control">
-                <button className={"ant-btn ant-btn-primary"} id="save">Save current state</button>
-                <button className={"ant-btn ant-btn-primary"} id="load">Load last saved state</button>
-            </div>
-        </div>
+        }
     </>);
 };
 

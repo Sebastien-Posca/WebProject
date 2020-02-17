@@ -1,28 +1,27 @@
-import React, { useState } from 'react';
-import { Form, Icon, Input, Button, InputNumber, Upload, Select, message } from 'antd';
+import React, {useState} from 'react';
+import {Button, Form, Icon, Input, InputNumber, message, Select, Upload} from 'antd';
 import 'antd/dist/antd.css'
 import Dragger from 'antd/lib/upload/Dragger';
 import './PluginForm.css';
 import reqwest from 'reqwest';
+import {BACKEND_ROOT_PATH} from "../../../constants";
 
 
-
-const { Option } = Select;
-const { TextArea } = Input;
+const {Option} = Select;
+const {TextArea} = Input;
 const categories = ['Modulation', 'Distortion', 'Egalisation', 'Reverb', 'Accordeur']
 
 const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 14 },
+    labelCol: {span: 6},
+    wrapperCol: {span: 14},
 };
-
 
 
 const PluginForm = props => {
 
 
     Form.create();
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = props.form
+    const {getFieldDecorator, getFieldsError, getFieldError, isFieldTouched} = props.form
     const [imageUrl, setImageUrl] = useState(false);
 
     const [loading, setLoading] = useState(false);
@@ -35,13 +34,13 @@ const PluginForm = props => {
     const [tags, setTags] = useState([]);
     const uploadButton = (
         <div>
-            <Icon type={loading ? 'loading' : 'plus'} />
+            <Icon type={loading ? 'loading' : 'plus'}/>
             <div className="ant-upload-text">Upload</div>
         </div>
     );
 
     const zipHandleChange = (info) => {
-        const { status } = info.file;
+        const {status} = info.file;
 
         if (status === 'done') {
             setUploading(false);
@@ -101,7 +100,7 @@ const PluginForm = props => {
                 formData.append('categorie', values.category);
                 formData.append('tags', values.tags);
                 reqwest({
-                    url: 'http://192.168.43.68:3000/submit',
+                    url: `${BACKEND_ROOT_PATH}/submit`,
                     method: 'post',
                     processData: false,
                     data: formData,
@@ -121,7 +120,6 @@ const PluginForm = props => {
         });
 
 
-
     }
 
     return (
@@ -130,7 +128,7 @@ const PluginForm = props => {
             <Form {...formItemLayout} onSubmit={(e) => handleClick(e)}>
                 <Form.Item label="Nom du Plugin">
                     {getFieldDecorator('name', {
-                        rules: [{ required: true, message: 'Please input the plugin name!' }]
+                        rules: [{required: true, message: 'Please input the plugin name!'}]
                     })(
                         <Input
                             placeholder="Plugin name"
@@ -139,7 +137,7 @@ const PluginForm = props => {
                 </Form.Item>
                 <Form.Item label="Version">
                     {getFieldDecorator('version', {
-                        rules: [{ required: true, message: 'Please input a version!' }]
+                        rules: [{required: true, message: 'Please input a version!'}]
                     })(
                         <InputNumber
                             placeholder="Version"
@@ -148,42 +146,45 @@ const PluginForm = props => {
                 </Form.Item>
                 <Form.Item label="Description">
                     {getFieldDecorator('description', {
-                        rules: [{ required: true, message: 'Please input a description!' }]
+                        rules: [{required: true, message: 'Please input a description!'}]
                     })(
                         <TextArea rows={2}
-                            placeholder="Description"
+                                  placeholder="Description"
                         />
                     )}
                 </Form.Item>
                 <Form.Item label="Thumbnail">
                     {getFieldDecorator('thumbnail', {
-                        rules: [{ required: false, message: 'Please upload a thumbnail for your plugin!' }]
+                        rules: [{required: false, message: 'Please upload a thumbnail for your plugin!'}]
                     })(
-                        <Upload name="logo" listType="picture-card" customRequest={handleBeforeUploadThumbnail} onChange={onThumbnailChange}>
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                        <Upload name="logo" listType="picture-card" customRequest={handleBeforeUploadThumbnail}
+                                onChange={onThumbnailChange}>
+                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{width: '100%'}}/> : uploadButton}
                         </Upload>
                     )}
                 </Form.Item>
 
                 <Form.Item label="ZipFile">
                     {getFieldDecorator('zipfile', {
-                        rules: [{ required: true, message: 'Please upload a Zip file for your plugin!' }]
+                        rules: [{required: true, message: 'Please upload a Zip file for your plugin!'}]
                     })(
-                        <Dragger data={{ dataName: "SebLEMALADE" }} name="myFile" onChange={zipHandleChange} customRequest={handleCustomRequest} beforeUpload={handleBeforeUploadZip}>
+                        <Dragger data={{dataName: "SebLEMALADE"}} name="myFile" onChange={zipHandleChange}
+                                 customRequest={handleCustomRequest} beforeUpload={handleBeforeUploadZip}>
                             <p className="ant-upload-drag-icon">
-                                <Icon type="inbox" />
+                                <Icon type="inbox"/>
                             </p>
                             <p className="ant-upload-text">Click or drag file to this area to upload</p>
                             <p className="ant-upload-hint">
-                                Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+                                Support for a single or bulk upload. Strictly prohibit from uploading company data or
+                                other
                                 band files
-    </p>
+                            </p>
                         </Dragger>,
                     )}
                 </Form.Item>
                 <Form.Item label="Category">
                     {getFieldDecorator('category', {
-                        rules: [{ required: true, message: 'Please select a category!' }]
+                        rules: [{required: true, message: 'Please select a category!'}]
 
                     })(
                         <Select defaultValue={categories[0]}>
@@ -196,19 +197,19 @@ const PluginForm = props => {
                 </Form.Item>
                 <Form.Item label="Tags">
                     {getFieldDecorator('tags', {
-                        rules: [{ required: true, message: 'Please select tag(s)!' }]
+                        rules: [{required: true, message: 'Please select tag(s)!'}]
                     })(
                         <Select
                             mode="tags"
                             placeholder="Please select"
                             onChange={handleTagChange}
-                            style={{ width: '100%' }}
+                            style={{width: '100%'}}
                         >
                         </Select>
                     )}
                 </Form.Item>
 
-                <Form.Item >
+                <Form.Item>
                     <Button
                         type="primary"
                         loading={uploading}
@@ -218,13 +219,11 @@ const PluginForm = props => {
                     </Button>
                 </Form.Item>
             </Form>
-        </div >
+        </div>
     );
 };
 
 const WrappedPluginForm = Form.create()(PluginForm);
-PluginForm.propTypes = {
-
-};
+PluginForm.propTypes = {};
 
 export default WrappedPluginForm;
