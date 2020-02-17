@@ -13,22 +13,23 @@ var storage = multer.diskStorage({
     cb(null, file.originalname);
   }
 });
-var upload = multer({ storage: storage });
+exports.upload = multer({ storage: storage });
 
 exports.fileUpload = (req, res) => {
   let temp = fs.createReadStream(req.file.path).pipe(unzipper.Extract({ path: req.file.destination }));
   temp.on("close", () => {
-    let buffer = (fs.existsSync(req.file.destination + '/main.json')) ? fs.readFileSync(req.file.destination + '/main.json') : console.log("non")
+    if (!fs.existsSync(req.file.destination + '/main.json')) {
+      return res.status(500).send("File was not created")
+    }
+    let buffer = fs.readFileSync(req.file.destination + '/main.json');
     let main = JSON.parse(buffer);
     fs.writeFileSync(req.file.destination + '/thumbnail.jpg', req.body.thumbnail);
     if (req.body.thumbnail == undefined) {
 
     }
     pluginController.createPlugin('moi', req.file.destination, req.body.name, main.name, req.body.description, req.body.tags, req.body.categorie, req.body.version);
-    res.status(200).json({
+    return res.status(201).json({
       message: "Message received",
     });
   })
-
 }
-module.exports.upload = upload;
