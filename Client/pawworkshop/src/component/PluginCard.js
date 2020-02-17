@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, Button, Tag, Icon } from 'antd';
 import './PluginCard.css';
 import { Link } from 'react-router-dom';
+import Text from 'antd/lib/typography/Text';
 
 const { Meta } = Card;
 const PluginCard = props => {
@@ -17,22 +18,29 @@ const PluginCard = props => {
             hoverable
             cover={<img alt="example" src={plugin.thumbnail} />}
         >
-            <Meta
+            <Meta className="metaCardSection"
                 title={plugin.moduleName}
-                description="pluginDescription (tags?)"
+                description={<Text code>version : {plugin.version}</Text>}
             >
             </Meta>
 
-            <div className="pluginTags">
-                {plugin.tags.map((item) => {
-                    return <Tag>{item}</Tag>
-                })}
+            <div className="pluginDescription">
+                <div className="pluginTags">
+                    {plugin.tags.map((item) => {
+                        return <Tag>{item}</Tag>
+                    })}
+                </div>
+                <Button onClick={handleClick} type="primary">Détails</Button>
             </div>
-            <Button onClick={handleClick} type="primary">Détails</Button>
-
-            <div className="divLikes">
-                <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" />
-                <label>50</label>
+            <div className="pluginCommentLikes">
+                <div className="comments">
+                    <Icon className="cardIcons" style={{ fontSize: '24px' }} type="message" theme="twoTone" twoToneColor="#1a98c9" />
+                    <label>50</label>
+                </div>
+                <div className="likes">
+                    <Icon className="cardIcons" style={{ fontSize: '24px' }} type="heart" theme="twoTone" twoToneColor="#eb2f96" />
+                    <label>50</label>
+                </div>
             </div>
         </Card>
     );
