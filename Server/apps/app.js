@@ -9,8 +9,6 @@ const database = require('../utils/database')
 var bodyParser = require('body-parser')
 const auth = require("../middleware/auth")
 
-
-
 function initDatabaseMiddleWare() {
     if (process.platform === "win32") {
         require("readline").createInterface({
@@ -40,8 +38,6 @@ app.use(auth);
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
-
 app.use('/user', userRoutes);
 
 app.use('/submit', submitRoutes);
@@ -49,3 +45,11 @@ app.use('/submit', submitRoutes);
 app.use('/plugins', pluginRoutes);
 
 app.use('/plugin', express.static(__dirname + '/..' + '/plugins'));
+
+
+//The 404 Route (ALWAYS Keep this as the last route)
+app.get('*', function (req, res) {
+    res.status(404).send({ msg: "Route not found" });
+});
+
+app.listen(port, () => console.log(`Server listening on port ${port}!`))

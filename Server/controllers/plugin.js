@@ -52,7 +52,42 @@ exports.getPlugins = (req, res) => {
 }
 
 exports.getPlugin = (req, res) => {
-    Plugin.findById(req.params.id).then((doc, err) => {
+    console.log(req.params.id);
+
+    Plugin.findById(req.params.id).then((plugin, err) => {
+        if (err) return res.status(500).send(err);
+        console.log(plugin);
+        let thumbnail = fs.readFileSync(plugin.localPath + '/thumbnail.jpg', "utf8")
+        let pair;
+        if (!thumbnail.startsWith('data:image')) {
+            pair = { thumbnail: "data:image/jpg;base64," + thumbnail }
+
+        } else {
+            pair = { thumbnail: thumbnail }
+        }
+        plugin = {
+            ...plugin._doc, ...pair
+        };
+        return res.status(200).send(plugin);
+    });
+}
+
+exports.addComment = (req, res) => {
+    // let json = JSON.parse(req.body.comment);
+    console.log(req.body);
+
+    console.log(req.body.comment);
+
+    // console.log(json);
+    req.body.comment.user = req.user.name;
+    Plugin.findOneAndUpdate({ _id: req.body.id }, { $push: { comments: req.body.comment } }, { upsert: true, new: true }, (err, doc) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send(doc);
+    });
+}
+
+exports.addLike = (req, res) => {
+    Plugin.findOneAndUpdate({ _id: req.body.id }, { $addToSet: { likes: req.user } }, { upsert: true, new: true }, (err, doc) => {
         if (err) return res.status(500).send(err);
         return res.status(200).send(doc);
     });

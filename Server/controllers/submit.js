@@ -3,6 +3,8 @@ var fs = require('fs');
 var fsPromises = fs.promises;
 var unzipper = require('unzipper')
 let pluginController = require('../controllers/plugin')
+const Plugin = require('../models/plugin')
+
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -52,4 +54,20 @@ exports.fileUpload = (req, res) => {
         return res.status(500).send(err)
       });
   })
+}
+
+exports.fileDownload = (req, res) => {
+  Plugin.findById(req.params.id).then((plugin, err) => {
+      if (err || plugin == null) return res.status(500).send(err);
+      //console.log(plugin);
+      res.setHeader('Content-type', 'application/zip');
+      let fileStream = fs.createReadStream(__dirname + '/../' + plugin.localPath + '/' + plugin.moduleName + '.zip');
+      fileStream.pipe(res);
+      fileStream.on('error', function (error) {
+            return res.status(500).send(error)
+      });
+      fileStream.on('close', function () {
+            fileStream.destroy();
+      });
+  });
 }
