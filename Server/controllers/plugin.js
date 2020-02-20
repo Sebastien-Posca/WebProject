@@ -52,8 +52,22 @@ exports.getPlugins = (req, res) => {
 }
 
 exports.getPlugin = (req, res) => {
-    Plugin.findById(req.params.id).then((doc, err) => {
+    console.log(req.params.id);
+
+    Plugin.findById(req.params.id).then((plugin, err) => {
         if (err) return res.status(500).send(err);
-        return res.status(200).send(doc);
+        console.log(plugin);
+        let thumbnail = fs.readFileSync(plugin.localPath + '/thumbnail.jpg', "utf8")
+        let pair;
+        if (!thumbnail.startsWith('data:image')) {
+            pair = { thumbnail: "data:image/jpg;base64," + thumbnail }
+
+        } else {
+            pair = { thumbnail: thumbnail }
+        }
+        plugin = {
+            ...plugin._doc, ...pair
+        };
+        return res.status(200).send(plugin);
     });
 }

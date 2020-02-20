@@ -8,7 +8,4 @@ router.get("/:id", PluginController.getPlugin);
 router.get("/", PluginController.getPlugins);
 
 
-
-
-
 module.exports = router;
