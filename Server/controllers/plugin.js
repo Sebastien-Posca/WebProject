@@ -68,6 +68,7 @@ exports.getPlugin = (req, res) => {
         plugin = {
             ...plugin._doc, ...pair
         };
+        plugin.likes = plugin.likes.length;
         return res.status(200).send(plugin);
     });
 }
