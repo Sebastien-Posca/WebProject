@@ -4,6 +4,7 @@
 }
 
 .pluginImage {
+    vertical-align: top;
     width: 45%;
     display: inline-block;
     text-align: right;
@@ -17,4 +18,8 @@
 
 .title {
     font-size: 38px;
+}
+
+.downloadLink {
+    color: white;
 }

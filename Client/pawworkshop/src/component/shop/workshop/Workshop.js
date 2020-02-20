@@ -30,7 +30,6 @@ const Workshop = props => {
 
     return (
         <>
-            <NavigationBar />
             {loading ? <div>
                 <Spin size="large" tip="Chargement des Plugins" />
             </div>

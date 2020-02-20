@@ -36,11 +36,11 @@ const PluginCard = props => {
             <div className="pluginCommentLikes">
                 <div className="comments">
                     <Icon className="cardIcons" style={{ fontSize: '24px' }} type="message" theme="twoTone" twoToneColor="#1a98c9" />
-                    <label>50</label>
+                    <label>{plugin.comments.length}</label>
                 </div>
                 <div className="likes">
                     <Icon className="cardIcons" style={{ fontSize: '24px' }} type="heart" theme="twoTone" twoToneColor="#eb2f96" />
-                    <label>50</label>
+                    <label>{plugin.likes}</label>
                 </div>
             </div>
         </Card>

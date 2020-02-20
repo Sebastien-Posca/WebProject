@@ -5,7 +5,6 @@ import NavigationBar from '../core/navigation-bar/NavigationBar'
 const Plugin = () => {
     return (
         <>
-            <NavigationBar/>
             <WrappedPluginForm/>
         </>
     )
