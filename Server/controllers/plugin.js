@@ -73,7 +73,21 @@ exports.getPlugin = (req, res) => {
 }
 
 exports.addComment = (req, res) => {
+    // let json = JSON.parse(req.body.comment);
+    console.log(req.body);
+
+    console.log(req.body.comment);
+
+    // console.log(json);
+    req.body.comment.user = req.user.name;
     Plugin.findOneAndUpdate({ _id: req.body.id }, { $push: { comments: req.body.comment } }, { upsert: true, new: true }, (err, doc) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send(doc);
+    });
+}
+
+exports.addLike = (req, res) => {
+    Plugin.findOneAndUpdate({ _id: req.body.id }, { $addToSet: { likes: req.user } }, { upsert: true, new: true }, (err, doc) => {
         if (err) return res.status(500).send(err);
         return res.status(200).send(doc);
     });
