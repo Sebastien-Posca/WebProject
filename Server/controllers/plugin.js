@@ -71,3 +71,10 @@ exports.getPlugin = (req, res) => {
         return res.status(200).send(plugin);
     });
 }
+
+exports.addComment = (req, res) => {
+    Plugin.findOneAndUpdate({ _id: req.body.id }, { $push: { comments: req.body.comment } }, { upsert: true, new: true }, (err, doc) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send(doc);
+    });
+}
