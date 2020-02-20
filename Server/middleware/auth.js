@@ -14,6 +14,9 @@ module.exports = (req, res, next) => {
     //         error: new Error('Invalid request!')
     //     });
     // }
+    req.user = {
+        _id: "5e41621c3b41ba1631a6d79e", name: "moi", password: "pswd"
+    }
     next();
 
 };
