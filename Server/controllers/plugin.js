@@ -44,6 +44,7 @@ exports.getPlugins = (req, res) => {
             plugin = {
                 ...plugin._doc, ...pair
             };
+            plugin.likes = plugin.likes.length;
             pluginMap.push(plugin);
         });
 
@@ -68,6 +69,7 @@ exports.getPlugin = (req, res) => {
         plugin = {
             ...plugin._doc, ...pair
         };
+        plugin.likes = plugin.likes.length;
         return res.status(200).send(plugin);
     });
 }
@@ -87,8 +89,20 @@ exports.addComment = (req, res) => {
 }
 
 exports.addLike = (req, res) => {
-    Plugin.findOneAndUpdate({ _id: req.body.id }, { $addToSet: { likes: req.user } }, { upsert: true, new: true }, (err, doc) => {
+    Plugin.findOneAndUpdate({ _id: req.body.id }, { $addToSet: { likes: req.user } }, { upsert: true, new: true }, (err, plugin) => {
         if (err) return res.status(500).send(err);
-        return res.status(200).send(doc);
+        let thumbnail = fs.readFileSync(plugin.localPath + '/thumbnail.jpg', "utf8")
+        let pair;
+        if (!thumbnail.startsWith('data:image')) {
+            pair = { thumbnail: "data:image/jpg;base64," + thumbnail }
+
+        } else {
+            pair = { thumbnail: thumbnail }
+        }
+        plugin = {
+            ...plugin._doc, ...pair
+        };
+        plugin.likes = plugin.likes.length;
+        return res.status(200).send(plugin);
     });
 }
