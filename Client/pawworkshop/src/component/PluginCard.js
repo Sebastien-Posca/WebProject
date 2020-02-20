@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button, Tag, Icon } from 'antd';
 import './PluginCard.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Text from 'antd/lib/typography/Text';
 
 const { Meta } = Card;
 const PluginCard = props => {
-
+    const history = useHistory();
     const plugin = props.item;
 
     const handleClick = () => {
-
+        const path = "/product/" + plugin._id;
+        history.push(path);
     }
     return (
         <Card className="pluginCardWorkshop"
