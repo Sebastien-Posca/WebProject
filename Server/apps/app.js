@@ -15,12 +15,12 @@ function initDatabaseMiddleWare() {
             input: process.stdin,
             output: process.stdout
         }).on("SIGINT", () => {
-            console.log('SIGINT: Closing MongoDB connection');
+            //console.log('SIGINT: Closing MongoDB connection');
             database.close();
         });
     }
     process.on('SIGINT', () => {
-        console.log('SIGINT: Closing MongoDB connection');
+        //console.log('SIGINT: Closing MongoDB connection');
         database.close();
     });
 
@@ -33,8 +33,6 @@ initDatabaseMiddleWare();
 app.use(cors())
 
 app.use(bodyParser.json())
-
-app.use(auth);
 
 app.get('/', (req, res) => res.send('Hello World!'))
 

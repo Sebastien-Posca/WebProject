@@ -20,8 +20,8 @@ exports.createUser = (req, res) => {
 
 exports.getUsers = (req, res) => {
     User.find({}, function (err, users) {
-        if (err) res.status(500).send(err);
-        if (users == null) res.status(500).send({ "err": "not found" });
+        if (err) return res.status(500).send(err);
+        if (users == null) return res.status(500).send({ "err": "not found" });
         var userMap = {};
         users.forEach(function (user) {
             userMap[user._id] = user;
@@ -31,22 +31,23 @@ exports.getUsers = (req, res) => {
 }
 
 exports.login = (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
 
     User.findOne({ name: new RegExp('^' + req.body.name + '$', "i") }).then((doc) => {
-        if (doc == null) res.status(500).send({ "err": "not found" });
-        console.log(doc);
+        if (doc == null) return res.status(500).send({ "err": "not found" });
+        //console.log(doc);
         let thumbnail = fs.readFileSync('./profilePics/' + doc.thumbnail, { encoding: 'base64' })
         if (!thumbnail.startsWith('data:image')) {
             doc.thumbnail = "data:image/jpg;base64," + thumbnail;
-
         } else {
             doc.thumbnail = thumbnail;
         }
         bcrypt.compare(req.body.pwd, doc.password, function (err, resp) {
-            if (err) res.status(500).send(err);
+            if (err) return res.status(500).send(err);
             if (resp == true) {
-                jwt.sign({ name: req.body.name }, 'shhhhh', function (err, token) {
+                console.log(doc);
+
+                jwt.sign({ id: doc._id, name: doc.name }, 'shhhhh', function (err, token) {
                     if (err) return res.status(500).send(err);
                     return res.status(200).send({ "token": token, "user": doc })
                 });
