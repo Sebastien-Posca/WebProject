@@ -71,8 +71,11 @@ const CommentComponent = props => {
                     datetime={
                         <Tooltip title={moment(item.date).format('YYYY-MM-DD HH:mm:ss')}>
                             <span>Il y a {moment(item.date, 'YYYY-MM-DD HH:mm:ss').fromNow()
+                                .replace(/hour/, 'heure')
+                                .replace(/hours/, 'heures')
                                 .replace(/month/, 'mois')
                                 .replace(/months/, 'mois')
+                                .replace(/an/, 'une')
                                 .replace(/day/, 'jour')
                                 .replace(/days/, 'jours')
                                 .replace(/ago/, '')}</span>
