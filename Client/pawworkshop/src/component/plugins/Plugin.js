@@ -1,6 +1,5 @@
 import React from 'react';
-import WrappedPluginForm from './test-plugin/PluginForm';
-import NavigationBar from '../core/navigation-bar/NavigationBar'
+import WrappedPluginForm from './plugin-form/PluginForm';
 
 const Plugin = () => {
     return (

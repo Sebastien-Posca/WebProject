@@ -8,7 +8,6 @@ export const TestPlugin = () => {
     let { idPlugin } = useParams();
     let plugin = undefined;
     useEffect(() => {
-        console.log(idPlugin);
         fetchPlugin(idPlugin).then(pluginRes => {
             plugin = pluginRes;
             loadPluginTest(`${BACKEND_ROOT_PATH}/${pluginRes.path}`, pluginRes.moduleName);

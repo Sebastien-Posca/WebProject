@@ -4,8 +4,8 @@ import 'antd/dist/antd.css'
 import Dragger from 'antd/lib/upload/Dragger';
 import './PluginForm.css';
 import reqwest from 'reqwest';
-import { BACKEND_ROOT_PATH } from "../../../constants";
-import { useHistory } from 'react-router-dom';
+import {BACKEND_ROOT_PATH} from "../../../constants";
+import {useHistory} from 'react-router-dom';
 
 const { Option } = Select;
 const { TextArea } = Input;

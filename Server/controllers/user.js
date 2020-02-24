@@ -27,13 +27,18 @@ exports.getUsers = (req, res) => {
 }
 
 exports.login = (req, res) => {
+    console.log(req.body);
+
     User.findOne({ name: new RegExp('^' + req.body.name + '$', "i") }).then((doc) => {
-        bcrypt.compare(req.body.psd, doc.password, function (err, resp) {
+        if (doc == undefined) res.status(500).send({ "err": "not found" });
+        console.log(doc);
+
+        bcrypt.compare(req.body.pwd, doc.password, function (err, resp) {
             if (err) res.status(500).send(err);
             if (resp == true) {
                 jwt.sign({ name: req.body.name }, 'shhhhh', function (err, token) {
                     if (err) return res.status(500).send(err);
-                    return res.send(token)
+                    return res.status(200).send({ "token": token, "user": doc })
                 });
             }
         });

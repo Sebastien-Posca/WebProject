@@ -1,6 +1,8 @@
 .navigationBar {
-    width: 100%;
-    margin-bottom: 3%;
+    z-index: 1337;
+    width: 100vw;
+    position: fixed;
+    top: 0;
 }
 
 .navigationBarLinks {
@@ -17,7 +19,7 @@
     color: rgba(255, 255, 255, 0.65);
 }
 
-.navigationBarProfil>p {
+.navigationBarProfil > p {
     margin: 5px 10px 5px 0;
 }
 
@@ -25,7 +27,7 @@
     color: rgba(255, 255, 255, 1);
 }
 
-.popoverContent>img {
+.popoverContent > img {
     text-align: center;
     width: 50px;
     margin-bottom: 10px;
