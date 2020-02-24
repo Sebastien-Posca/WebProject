@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Icon, Input, InputNumber, message, Select, Tag, Upload } from 'antd';
+import { Button, Form, Icon, Input, InputNumber, message, Select, Tag, Upload, Radio } from 'antd';
 import 'antd/dist/antd.css'
 import Dragger from 'antd/lib/upload/Dragger';
 import './PluginForm.css';
@@ -33,7 +33,7 @@ const PluginForm = props => {
     const [tags, setTags] = useState([]);
     const [inputVisible, setInputVisible] = useState(false);
     const [inputValue, setInputValue] = useState("");
-
+    const [uploadType, setUploadType] = useState('zip')
     const uploadButton = (
         <div>
             <Icon type={loading ? 'loading' : 'plus'} />
@@ -95,6 +95,13 @@ const PluginForm = props => {
         setInputValue(e.target.value);
     };
 
+    const handleRadioGroupChange = e => {
+        if (setUploadType !== e.target.value) {
+            setUploadType(e.target.value);
+        }
+
+    }
+
     const handleInputConfirm = () => {
         console.log('flag');
         if (inputValue && tags.indexOf(inputValue) === -1) {
@@ -125,13 +132,25 @@ const PluginForm = props => {
                 if (values.thumbnail) {
                     formData.append('thumbnail', values.thumbnail.file.thumbUrl);
                 }
+                if (values.githubAddress) {
+                    formData.append('git', values.githubAddress);
+                }
                 formData.append('categorie', values.category);
                 console.log(tags);
                 formData.append('tags', JSON.stringify(tags));
                 setUploading(true);
                 console.log(formData);
+
+                let urlRequest;
+
+                if (uploadType === 'zip') {
+                    urlRequest = `${BACKEND_ROOT_PATH}/submit`
+                } else {
+                    urlRequest = `${BACKEND_ROOT_PATH}/submit/git`
+                }
+
                 reqwest({
-                    url: `${BACKEND_ROOT_PATH}/submit`,
+                    url: urlRequest,
                     method: 'post',
                     processData: false,
                     data: formData,
@@ -197,20 +216,42 @@ const PluginForm = props => {
                         </Upload>
                     )}
                 </Form.Item>
-
-                <Form.Item label="Fichier Zip">
-                    {getFieldDecorator('zipfile', {
-                        rules: [{ required: true, message: 'Ajouter le fichier Zip de votre plugin!' }]
+                <Form.Item label="Type d'upload:">
+                    {getFieldDecorator('uploadChoice', {
+                        rules: [{ required: false, message: 'Please upload a thumbnail for your plugin!' }]
                     })(
-                        <Dragger data={{ dataName: "SebLEMALADE" }} name="myFile" onChange={zipHandleChange}
-                            customRequest={handleCustomRequest} beforeUpload={handleBeforeUploadZip}>
-                            <p className="ant-upload-drag-icon">
-                                <Icon type="inbox" />
-                            </p>
-                            <p className="ant-upload-text">Cliquer or glisser le fichier dans cette zone pour upload</p>
-                        </Dragger>,
+                        <Radio.Group onChange={handleRadioGroupChange} defaultValue="a" buttonStyle="solid">
+                            <Radio.Button value="zip">Fichier Zip</Radio.Button>
+                            <Radio.Button value="github">Dépôt distant</Radio.Button>
+                        </Radio.Group>
                     )}
                 </Form.Item>
+
+                {uploadType === 'zip' ?
+                    <Form.Item label="Fichier Zip">
+                        {getFieldDecorator('zipfile', {
+                            rules: [{ required: true, message: 'Ajouter le fichier Zip de votre plugin!' }]
+                        })(
+                            <Dragger data={{ dataName: "SebLEMALADE" }} name="myFile" onChange={zipHandleChange}
+                                customRequest={handleCustomRequest} beforeUpload={handleBeforeUploadZip}>
+                                <p className="ant-upload-drag-icon">
+                                    <Icon type="inbox" />
+                                </p>
+                                <p className="ant-upload-text">Cliquer or glisser le fichier dans cette zone pour upload</p>
+                            </Dragger>,
+                        )}
+                    </Form.Item>
+                    :
+                    <Form.Item label="Adresse Github">
+                        {getFieldDecorator('githubAddress', {
+                            rules: [{ required: true, message: 'Ajouter une url github !' }]
+
+                        })(
+                            <Input placeholder="Url Github" />
+
+                        )}
+                    </Form.Item>
+                }
                 <Form.Item label="Categorie">
                     {getFieldDecorator('category', {
                         rules: [{ required: true, message: 'Selectionner une catégorie !' }]
@@ -224,19 +265,6 @@ const PluginForm = props => {
                         </Select>
                     )}
                 </Form.Item>
-                {/* <Form.Item label="Tags">
-                    {getFieldDecorator('tags', {
-                        rules: [{required: true, message: 'Please select tag(s)!'}]
-                    })(
-                        <Select
-                            mode="tags"
-                            placeholder="Please select"
-                            onChange={handleTagChange}
-                            style={{width: '100%'}}
-                        >
-                        </Select>
-                    )}
-                </Form.Item> */}
 
                 <Form.Item label="Tags">
                     {getFieldDecorator('tags', {

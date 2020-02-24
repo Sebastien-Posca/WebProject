@@ -24,7 +24,7 @@ function App() {
                             <Plugin />
                         </Route>
 
-                        <Route path="/testPlugin/:id">
+                        <Route path="/testPlugin/:idPlugin">
                             <TestPlugin />
                         </Route>
 
