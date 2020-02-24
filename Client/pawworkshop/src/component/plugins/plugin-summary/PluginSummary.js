@@ -7,11 +7,13 @@ import Text from 'antd/lib/typography/Text';
 import CommentComponent from '../comment/CommentComponent';
 import './PluginSummary.css';
 import reqwest from 'reqwest';
+import {useHistory} from "react-router";
 
 
 const {TabPane} = Tabs;
 const PluginSummary = props => {
     const params = useParams();
+    const history = useHistory();
     const selectedPlugin = useSelector((state) => state.pluginSelected);
     const [fetchedPlugin, setFetchedPlugin] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -49,6 +51,11 @@ const PluginSummary = props => {
             },
         });
     };
+
+    function goToTest() {
+        const path = "/testPlugin/" + params.id;
+        history.push(path);
+    }
 
     return (
         <>
@@ -89,7 +96,8 @@ const PluginSummary = props => {
                                 <div className="pluginDescription">
                                     <h1> Description </h1>
                                     <p> Description du plugin séléctionné </p>
-                                    <Button type="primary" icon="play-circle">Essayer {fetchedPlugin.name}</Button>
+                                    <Button onClick={goToTest} type="primary"
+                                            icon="play-circle">Essayer {fetchedPlugin.name}</Button>
                                 </div>
                             </TabPane>
                             <TabPane tab="Commentaires" key="2">

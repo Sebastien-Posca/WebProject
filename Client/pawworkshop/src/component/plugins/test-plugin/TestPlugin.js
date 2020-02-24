@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
-import NavigationBar from '../../core/navigation-bar/NavigationBar';
-import { useParams } from "react-router";
+import React, {useEffect} from 'react';
+import {useHistory, useParams} from "react-router";
 import './TestPlugin.css';
-import { BACKEND_ROOT_PATH } from "../../../constants";
+import {BACKEND_ROOT_PATH} from "../../../constants";
+import {Button} from "antd";
 
 export const TestPlugin = () => {
-    let { idPlugin } = useParams();
+    let {idPlugin} = useParams();
+    const history = useHistory();
     let plugin = undefined;
     useEffect(() => {
         fetchPlugin(idPlugin).then(pluginRes => {
             plugin = pluginRes;
             loadPluginTest(`${BACKEND_ROOT_PATH}/${pluginRes.path}`, pluginRes.moduleName);
         });
-    });
+    }, [plugin]);
     let state;
     let popupOpened = 'none';
     let removePopupTimer;
@@ -92,20 +93,29 @@ export const TestPlugin = () => {
         popupOpened = undefined;
     }
 
+    function goToUnitTest() {
+        const path = "/unitTestPlugin/" + idPlugin;
+        history.push(path);
+    }
+
     return (<>
         {plugin ? <div className="loading"></div> :
-            <div className="plugin-test-container">
-                <audio
-                    crossOrigin="anonymous"
-                    src="https://mainline.i3s.unice.fr/PedalEditor/Back-End/functional-pedals/published/freeverbMichelBuffa/CleanGuitarRiff.mp3"
-                    id="soundSample" controls loop />
-                <div id="plugin-preview-container">
+            <>
+                <div className="plugin-test-container">
+                    <audio
+                        crossOrigin="anonymous"
+                        src="https://mainline.i3s.unice.fr/PedalEditor/Back-End/functional-pedals/published/freeverbMichelBuffa/CleanGuitarRiff.mp3"
+                        id="soundSample" controls loop/>
+                    <div id="plugin-preview-container">
+                    </div>
+                    <div className="plugin-control">
+                        <button className={"ant-btn ant-btn-primary"} id="save">Save current state</button>
+                        <button className={"ant-btn ant-btn-primary"} id="load">Load last saved state</button>
+                    </div>
+                    <Button onClick={goToUnitTest} type="primary" style={{marginTop: '16px'}}
+                            icon="play-circle">Lancer les tests techniques</Button>
                 </div>
-                <div className="plugin-control">
-                    <button className={"ant-btn ant-btn-primary"} id="save">Save current state</button>
-                    <button className={"ant-btn ant-btn-primary"} id="load">Load last saved state</button>
-                </div>
-            </div>
+            </>
         }
     </>);
 };
