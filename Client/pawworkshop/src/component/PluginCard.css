@@ -5,6 +5,10 @@
     vertical-align: top;
 }
 
+.workshopImage {
+    object-fit: cover;
+}
+
 .pluginTags {
     margin: 3%;
 }

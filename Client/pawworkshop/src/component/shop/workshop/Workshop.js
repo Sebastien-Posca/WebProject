@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import NavigationBar from '../../core/navigation-bar/NavigationBar';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import PluginCard from '../../PluginCard';
-import { Spin, Icon, Tag, Input } from 'antd';
-import { BACKEND_ROOT_PATH } from "../../../constants";
+import {Icon, Input, Spin, Tag} from 'antd';
+import {BACKEND_ROOT_PATH} from "../../../constants";
 import Search from 'antd/lib/input/Search';
 import './Workshop.css';
+
 const Workshop = props => {
 
 
@@ -49,7 +49,7 @@ const Workshop = props => {
         if (plugin.moduleName.toLowerCase().includes(filterName.toLowerCase()) && checkForTag(plugin))
             return true;
         return false;
-    }
+    };
 
     const checkForTag = (plugin) => {
         for (let tag of tags) {
@@ -59,7 +59,7 @@ const Workshop = props => {
             }
         }
         return true;
-    }
+    };
 
     const fetchPlugin = async () => {
 
@@ -79,13 +79,13 @@ const Workshop = props => {
     const handleChange = (e) => {
         console.log(e.target.value);
         setFilterName(e.target.value);
-    }
+    };
 
     const onTagClick = (tag) => {
         if (!tags.includes(tag)) {
             setTags([...tags, tag]);
         }
-    }
+    };
 
     return (
         <>
@@ -124,7 +124,7 @@ const Workshop = props => {
 
 
                     </div>
-                    <div>
+                    <div className={"cards-container"}>
 
                         {result.map((item) => {
                             console.log(item);
