@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
-import {useParams} from "react-router";
+import React, { useEffect } from 'react';
+import NavigationBar from '../../core/navigation-bar/NavigationBar';
+import { useParams } from "react-router";
 import './TestPlugin.css';
-import {BACKEND_ROOT_PATH} from "../../../constants";
+import { BACKEND_ROOT_PATH } from "../../../constants";
 
 export const TestPlugin = () => {
-    let {idPlugin} = useParams();
+    let { idPlugin } = useParams();
     let plugin = undefined;
     useEffect(() => {
         fetchPlugin(idPlugin).then(pluginRes => {
@@ -97,7 +98,7 @@ export const TestPlugin = () => {
                 <audio
                     crossOrigin="anonymous"
                     src="https://mainline.i3s.unice.fr/PedalEditor/Back-End/functional-pedals/published/freeverbMichelBuffa/CleanGuitarRiff.mp3"
-                    id="soundSample" controls loop/>
+                    id="soundSample" controls loop />
                 <div id="plugin-preview-container">
                 </div>
                 <div className="plugin-control">
