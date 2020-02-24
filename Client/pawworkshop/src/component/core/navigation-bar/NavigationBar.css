@@ -1,9 +1,6 @@
 .navigationBar {
-    z-index: 1;
     width: 100vw;
-    position: fixed;
-    top: 0;
-    background: #001529;
+    margin-bottom: 46px;
 }
 
 .navigationBarLinks {
@@ -27,7 +24,7 @@
     }
 }
 
-.navigationBarProfil > p {
+.navigationBarProfil>p {
     margin: 5px 10px 5px 0;
 }
 
@@ -35,7 +32,7 @@
     color: rgba(255, 255, 255, 1);
 }
 
-.popoverContent > img {
+.popoverContent>img {
     text-align: center;
     width: 50px;
     margin-bottom: 10px;
@@ -47,4 +44,9 @@
 
 .login-form-button {
     width: 100%;
+}
+
+.navigationProfilImage {
+    border-radius: 5px;
+    width: 32px;
 }

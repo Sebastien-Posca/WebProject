@@ -1,16 +1,19 @@
-import React, {useState} from 'react';
-import {Avatar, Button, Comment, Form, message, Tooltip} from 'antd';
+import React, { useState } from 'react';
+import { Avatar, Button, Comment, Form, message, Tooltip } from 'antd';
 import moment from 'moment';
 import './CommentComponent.css';
 import TextArea from 'antd/lib/input/TextArea';
 import reqwest from 'reqwest';
-import {BACKEND_ROOT_PATH} from "../../../constants";
+import { BACKEND_ROOT_PATH } from "../../../constants";
+import { useSelector } from 'react-redux';
 
 const CommentComponent = props => {
     const [submitting, setSubmitting] = useState(false);
     const comments = props.comments;
     const pluginId = props.pluginId;
     const [value, setValue] = useState('');
+
+    const selector = useSelector(state => state.loggedUser.userToken);
 
     const handleChange = e => {
         setValue(e.target.value)
@@ -38,8 +41,11 @@ const CommentComponent = props => {
             method: 'post',
             type: 'json',
             processData: false,
+            headers: {
+                Authorization: selector
+            },
             contentType: 'application/json',
-            data: JSON.stringify({id: pluginId, comment: comment}),
+            data: JSON.stringify({ id: pluginId, comment: comment }),
             success: () => {
                 message.success('Commentaire envoyé');
                 setSubmitting(false);
@@ -95,7 +101,7 @@ const CommentComponent = props => {
                 content={
                     <div>
                         <Form.Item>
-                            <TextArea rows={4} onChange={handleChange} value={value}/>
+                            <TextArea rows={4} onChange={handleChange} value={value} />
                         </Form.Item>
                         <Form.Item>
                             <Button htmlType="submit" loading={submitting} onClick={handleSubmit} type="primary">

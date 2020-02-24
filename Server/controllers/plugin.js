@@ -5,7 +5,7 @@ var express = require("express");
 
 
 
-exports.createPlugin = (user, localPath, path, name, moduleName, description, tags, category, version) => {
+exports.createPlugin = (user, localPath, path, name, moduleName, description, tags, category, version, git) => {
     return new Promise((resolve, reject) => {
         let plugin = new Plugin();
         plugin.moduleName = moduleName;
@@ -17,6 +17,9 @@ exports.createPlugin = (user, localPath, path, name, moduleName, description, ta
         plugin.tags = JSON.parse(tags);
         plugin.category = category;
         plugin.version = version;
+        if (git != undefined) {
+          plugin.git = git;
+        }
         plugin.save((err, plugin) => {
             if (err) reject(err);
             resolve(plugin);
@@ -112,4 +115,3 @@ exports.hasLike = (req, res) => {
         return res.status(200).send({ "canLike": true });
     });
 }
-

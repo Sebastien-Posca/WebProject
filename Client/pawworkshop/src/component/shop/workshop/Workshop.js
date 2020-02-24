@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PluginCard from '../plugin-card/PluginCard';
-import {Icon, Input, Spin, Tag} from 'antd';
+import { Icon, Input, Spin, Tag } from 'antd';
 import Search from 'antd/lib/input/Search';
 import './Workshop.css';
-import {BACKEND_ROOT_PATH} from "../../../constants";
+import { BACKEND_ROOT_PATH } from "../../../constants";
 
 const Workshop = props => {
 
@@ -68,7 +68,7 @@ const Workshop = props => {
         let results = await response.json();
 
         console.log(results);
-        dispatch({type: 'plugin_list', pluginList: results});
+        dispatch({ type: 'plugin_list', pluginList: results });
         setLoading(false);
         setResult(results);
     };
@@ -91,29 +91,29 @@ const Workshop = props => {
     return (
         <>
             {loading ? <div>
-                    <Spin size="large" tip="Chargement des Plugins"/>
-                </div>
+                <Spin size="large" tip="Chargement des Plugins" />
+            </div>
                 :
                 <>
                     <div className="filterSection">
-                        <div className="filters"><Icon type="filter" style={{fontSize: '50px', color: '#08c'}}/>
+                        <div className="filters"><Icon type="filter" style={{ fontSize: '50px', color: '#08c' }} />
                             <h1>Filtres</h1></div>
 
                         <Search className="searchBarWorkshop" placeholder="Chercher un plugin"
-                                onChange={handleChange}/>
+                            onChange={handleChange} />
 
                         <div className={"tags"}>
                             <span className={"searchTag"}>Chercher par tag</span>
                             {tags.map((item) => {
                                 return <Tag key={item} color="#f50" closable={true}
-                                            onClose={() => handleTagClose(item)}>{item}</Tag>
+                                    onClose={() => handleTagClose(item)}>{item}</Tag>
                             })}
                             {inputVisible && (
                                 <>
                                     <Input
                                         type="text"
                                         size="small"
-                                        style={{width: 78}}
+                                        style={{ width: 78 }}
                                         value={inputValue}
                                         onChange={handleInputChange}
                                         onBlur={handleInputConfirm}
@@ -124,8 +124,8 @@ const Workshop = props => {
                             {!inputVisible && (
                                 <>
                                     <Tag onClick={showInput}
-                                         style={{background: '#fff', borderStyle: 'dashed', cursor: 'pointer'}}>
-                                        <Icon type="plus"/> Nouveau tag
+                                        style={{ background: '#fff', borderStyle: 'dashed', cursor: 'pointer' }}>
+                                        <Icon type="plus" /> Nouveau tag
                                     </Tag>
                                 </>
                             )}
@@ -136,7 +136,7 @@ const Workshop = props => {
                     <div className={"cards-container"}>
                         {result.map((item) => {
                             if (passFilters(item)) {
-                                return <PluginCard item={item} handleTagClick={onTagClick}/>
+                                return <PluginCard item={item} handleTagClick={onTagClick} />
                             }
                             return <></>
                         })}
