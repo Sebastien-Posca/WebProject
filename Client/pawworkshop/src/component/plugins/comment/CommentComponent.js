@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Comment, Avatar, Tooltip, Form, Button, message } from 'antd';
+import React, {useState} from 'react';
+import {Avatar, Button, Comment, Form, message, Tooltip} from 'antd';
 import moment from 'moment';
 import './CommentComponent.css';
 import TextArea from 'antd/lib/input/TextArea';
 import reqwest from 'reqwest';
-import { BACKEND_ROOT_PATH } from "../constants";
+import {BACKEND_ROOT_PATH} from "../../../constants";
 
 const CommentComponent = props => {
     const [submitting, setSubmitting] = useState(false);
-    const comments = props.comments
-    const pluginId = props.pluginId
+    const comments = props.comments;
+    const pluginId = props.pluginId;
     const [value, setValue] = useState('');
 
     const handleChange = e => {
@@ -29,7 +28,7 @@ const CommentComponent = props => {
         const comment = {
             date: `${Date.now()}`,
             text: `${value}`
-        }
+        };
 
         formDataComment.append('id', pluginId);
         formDataComment.append('comment', JSON.stringify(comment));

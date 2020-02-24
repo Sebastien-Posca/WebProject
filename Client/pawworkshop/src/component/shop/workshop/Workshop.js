@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import PluginCard from '../../PluginCard';
+import PluginCard from '../plugin-card/PluginCard';
 import {Icon, Input, Spin, Tag} from 'antd';
 import {BACKEND_ROOT_PATH} from "../../../constants";
 import Search from 'antd/lib/input/Search';
