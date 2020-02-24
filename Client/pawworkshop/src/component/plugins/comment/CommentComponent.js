@@ -96,7 +96,7 @@ const CommentComponent = props => {
                         </Form.Item>
                         <Form.Item>
                             <Button htmlType="submit" loading={submitting} onClick={handleSubmit} type="primary">
-                                Add Comment
+                                Commenter
                             </Button>
                         </Form.Item>
                     </div>
