@@ -52,9 +52,10 @@ const Workshop = props => {
     };
 
     const checkForTag = (plugin) => {
+        const tagsLowerCase = plugin.tags.map(tag => tag.toLowerCase());
         for (let tag of tags) {
             console.log(tag);
-            if (!plugin.tags.includes(tag)) {
+            if (!tagsLowerCase.includes(tag.toLowerCase())) {
                 return false
             }
         }
@@ -67,7 +68,7 @@ const Workshop = props => {
         let results = await response.json();
 
         console.log(results);
-        dispatch({ type: 'plugin_list', pluginList: results });
+        dispatch({type: 'plugin_list', pluginList: results});
         setLoading(false);
         setResult(results);
     };
@@ -90,35 +91,43 @@ const Workshop = props => {
     return (
         <>
             {loading ? <div>
-                <Spin size="large" tip="Chargement des Plugins" />
-            </div>
+                    <Spin size="large" tip="Chargement des Plugins"/>
+                </div>
                 :
                 <>
                     <div className="filterSection">
-                        <Icon type="filter" style={{ fontSize: '50px', color: '#08c' }} />
-                        <h1>Filtres</h1>
+                        <div className="filters"><Icon type="filter" style={{fontSize: '50px', color: '#08c'}}/>
+                            <h1>Filtres</h1></div>
 
-                        <Search className="searchBarWorkshop" placeholder="Chercher un plugin" onChange={handleChange}></Search>
+                        <Search className="searchBarWorkshop" placeholder="Chercher un plugin"
+                                onChange={handleChange}></Search>
 
-                        <div>
+                        <div className={"tags"}>
+                            <span className={"searchTag"}>Chercher par tag</span>
                             {tags.map((item) => {
-                                return <Tag key={item} color="#f50" closable={true} onClose={() => handleTagClose(item)}>{item}</Tag>
+                                return <Tag key={item} color="#f50" closable={true}
+                                            onClose={() => handleTagClose(item)}>{item}</Tag>
                             })}
                             {inputVisible && (
-                                <Input
-                                    type="text"
-                                    size="small"
-                                    style={{ width: 78 }}
-                                    value={inputValue}
-                                    onChange={handleInputChange}
-                                    onBlur={handleInputConfirm}
-                                    onPressEnter={handleInputConfirm}
-                                />
+                                <>
+                                    <Input
+                                        type="text"
+                                        size="small"
+                                        style={{width: 78}}
+                                        value={inputValue}
+                                        onChange={handleInputChange}
+                                        onBlur={handleInputConfirm}
+                                        onPressEnter={handleInputConfirm}
+                                    />
+                                </>
                             )}
                             {!inputVisible && (
-                                <Tag onClick={showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-                                    <Icon type="plus" /> New Tag
-                                </Tag>
+                                <>
+                                    <Tag onClick={showInput}
+                                         style={{background: '#fff', borderStyle: 'dashed', cursor: 'pointer'}}>
+                                        <Icon type="plus"/> Nouveau tag
+                                    </Tag>
+                                </>
                             )}
                         </div>
 
@@ -127,9 +136,8 @@ const Workshop = props => {
                     <div className={"cards-container"}>
 
                         {result.map((item) => {
-                            console.log(item);
                             if (passFilters(item)) {
-                                return <PluginCard item={item} handleTagClick={onTagClick} />
+                                return <PluginCard item={item} handleTagClick={onTagClick}/>
                             }
                             return <></>
                         })}

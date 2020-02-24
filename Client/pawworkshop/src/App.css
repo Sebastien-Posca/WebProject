@@ -14,6 +14,11 @@
     }
 }
 
+.ant-card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
 .App-header {
     background-color: #282c34;
     min-height: 100vh;
@@ -23,6 +28,14 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+}
+
+.ant-spin-spinning {
+    position: fixed;
+    display: inline-block;
+    opacity: 1;
+    top: calc(50vh - 30px);
+    left: calc(50vw - 75px);
 }
 
 .App-link {
