@@ -6,8 +6,8 @@ import PluginSummary from './component/PluginSummary';
 import TestPlugin from './component/plugins/test-plugin/TestPlugin';
 import store from './store/index';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import {BrowserRouter as Router, Route, Switch,} from 'react-router-dom';
+import {Provider} from 'react-redux';
 import NavigationBar from './component/core/navigation-bar/NavigationBar';
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
                             <Plugin />
                         </Route>
 
-                        <Route path="/testPlugin/:id">
+                        <Route path="/testPlugin/:idPlugin">
                             <TestPlugin />
                         </Route>
 
