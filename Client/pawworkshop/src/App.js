@@ -1,12 +1,11 @@
 import React from 'react';
 import Plugin from './component/plugins/Plugin';
 import Workshop from './component/shop/workshop/Workshop';
-import MainMenu from './component/core/main-menu/MainMenu';
 import PluginSummary from './component/plugins/plugin-summary/PluginSummary';
 import TestPlugin from './component/plugins/test-plugin/TestPlugin';
 import store from './store/index';
 import './App.css';
-import {BrowserRouter as Router, Route, Switch,} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect, Route, Switch,} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import NavigationBar from './component/core/navigation-bar/NavigationBar';
 import UnitTestPlugin from "./component/plugins/unit-test-plugin/UnitTestPlugin";
@@ -41,7 +40,7 @@ function App() {
                         </Route>
 
                         <Route path="/">
-                            <MainMenu/>
+                            <Redirect to={"/workshop"}/>
                         </Route>
 
                     </Switch>
