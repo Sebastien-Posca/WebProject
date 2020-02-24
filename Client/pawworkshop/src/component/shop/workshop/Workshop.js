@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PluginCard from '../plugin-card/PluginCard';
 import {Icon, Input, Spin, Tag} from 'antd';
-import {BACKEND_ROOT_PATH} from "../../../constants";
 import Search from 'antd/lib/input/Search';
 import './Workshop.css';
+import {BACKEND_ROOT_PATH} from "../../../constants";
 
 const Workshop = props => {
 
@@ -100,7 +100,7 @@ const Workshop = props => {
                             <h1>Filtres</h1></div>
 
                         <Search className="searchBarWorkshop" placeholder="Chercher un plugin"
-                                onChange={handleChange}></Search>
+                                onChange={handleChange}/>
 
                         <div className={"tags"}>
                             <span className={"searchTag"}>Chercher par tag</span>
@@ -134,7 +134,6 @@ const Workshop = props => {
 
                     </div>
                     <div className={"cards-container"}>
-
                         {result.map((item) => {
                             if (passFilters(item)) {
                                 return <PluginCard item={item} handleTagClick={onTagClick}/>

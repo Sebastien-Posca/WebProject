@@ -39,7 +39,7 @@ const CommentComponent = props => {
             type: 'json',
             processData: false,
             contentType: 'application/json',
-            data: JSON.stringify({ id: pluginId, comment: comment }),
+            data: JSON.stringify({id: pluginId, comment: comment}),
             success: () => {
                 message.success('Commentaire envoyé');
                 setSubmitting(false);
@@ -70,7 +70,12 @@ const CommentComponent = props => {
                     }
                     datetime={
                         <Tooltip title={moment(item.date).format('YYYY-MM-DD HH:mm:ss')}>
-                            <span>{moment(item.date, 'YYYY-MM-DD HH:mm:ss').fromNow()}</span>
+                            <span>Il y a {moment(item.date, 'YYYY-MM-DD HH:mm:ss').fromNow()
+                                .replace(/month/, 'mois')
+                                .replace(/months/, 'mois')
+                                .replace(/day/, 'jour')
+                                .replace(/days/, 'jours')
+                                .replace(/ago/, '')}</span>
                         </Tooltip>
                     }
                 />
@@ -87,12 +92,12 @@ const CommentComponent = props => {
                 content={
                     <div>
                         <Form.Item>
-                            <TextArea rows={4} onChange={handleChange} value={value} />
+                            <TextArea rows={4} onChange={handleChange} value={value}/>
                         </Form.Item>
                         <Form.Item>
                             <Button htmlType="submit" loading={submitting} onClick={handleSubmit} type="primary">
                                 Add Comment
-            </Button>
+                            </Button>
                         </Form.Item>
                     </div>
 

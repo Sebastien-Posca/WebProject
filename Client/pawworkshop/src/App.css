@@ -30,6 +30,15 @@
     color: white;
 }
 
+.ant-comment-content .ant-form-item-control-wrapper {
+    text-align: center;
+}
+
+.ant-comment-content {
+    text-align: left;
+}
+
+
 .ant-spin-spinning {
     position: fixed;
     display: inline-block;
