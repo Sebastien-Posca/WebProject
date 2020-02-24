@@ -1,8 +1,7 @@
 .pluginCardWorkshop {
-    width: 15%;
-    margin: 1%;
     display: inline-block;
     vertical-align: top;
+    max-width: 350px;
 }
 
 .workshopImage {
@@ -39,6 +38,16 @@
     margin: 5px
 }
 
+.comments span, .likes span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.likes i, .comments i {
+    margin-right: 4px;
+}
+
 .cardIcons {
     margin-right: 3px;
 }
@@ -48,9 +57,12 @@
 }
 
 .pluginCommentLikes {
-    display: inline-block;
+    display: flex;
     border-top: 1px solid #C0C0C0C0;
     width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3px;
 }
 
 .hoverableIcon:hover {

@@ -2,11 +2,12 @@
 const defaultState = { userProfil: null, userToken: null }
 
 const loggedUser = (state = defaultState, action) => {
+    console.log(action)
     switch (action.type) {
         case "user_profil":
-            return { ...state, userProfil: action.userProfil };
+            return { ...state, userProfil: action.user };
         case "user_token":
-            return { ...state, userToken: action.userToken };
+            return { ...state, userToken: action.token };
         default:
             return state;
     }
