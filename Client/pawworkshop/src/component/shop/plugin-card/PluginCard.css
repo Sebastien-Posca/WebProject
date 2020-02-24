@@ -1,8 +1,7 @@
 .pluginCardWorkshop {
-    width: 15%;
-    margin: 1%;
     display: inline-block;
     vertical-align: top;
+    max-width: 350px;
 }
 
 .workshopImage {
