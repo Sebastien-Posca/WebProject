@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import NavigationBar from '../../core/navigation-bar/NavigationBar';
 import {useParams} from "react-router";
 import './TestPlugin.css';
 import {BACKEND_ROOT_PATH} from "../../../constants";
@@ -8,7 +7,6 @@ export const TestPlugin = () => {
     let {idPlugin} = useParams();
     let plugin = undefined;
     useEffect(() => {
-        console.log(idPlugin);
         fetchPlugin(idPlugin).then(pluginRes => {
             plugin = pluginRes;
             loadPluginTest(`${BACKEND_ROOT_PATH}/${pluginRes.path}`, pluginRes.moduleName);
@@ -94,7 +92,6 @@ export const TestPlugin = () => {
     }
 
     return (<>
-        <NavigationBar/>
         {plugin ? <div className="loading"></div> :
             <div className="plugin-test-container">
                 <audio
