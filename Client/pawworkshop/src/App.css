@@ -14,6 +14,11 @@
     }
 }
 
+.ant-card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
 .App-header {
     background-color: #282c34;
     min-height: 100vh;
@@ -25,8 +30,30 @@
     color: white;
 }
 
+.ant-comment-content .ant-form-item-control-wrapper {
+    text-align: center;
+}
+
+.ant-comment-content {
+    text-align: left;
+}
+
+
+.ant-spin-spinning {
+    position: fixed;
+    display: inline-block;
+    opacity: 1;
+    top: calc(50vh - 30px);
+    left: calc(50vw - 75px);
+}
+
 .App-link {
     color: #61dafb;
+}
+
+.ant-tag {
+    border-radius: 61px;
+    text-transform: uppercase;
 }
 
 @keyframes App-logo-spin {

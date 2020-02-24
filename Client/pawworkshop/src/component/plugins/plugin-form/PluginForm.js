@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Form, Icon, Input, InputNumber, message, Select, Tag, Upload, Radio } from 'antd';
+import React, {useState} from 'react';
+import {Button, Form, Icon, Input, InputNumber, message, Radio, Select, Tag, Upload} from 'antd';
 import 'antd/dist/antd.css'
 import Dragger from 'antd/lib/upload/Dragger';
 import './PluginForm.css';
@@ -8,13 +8,13 @@ import { BACKEND_ROOT_PATH } from "../../../constants";
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const { Option } = Select;
-const { TextArea } = Input;
+const {Option} = Select;
+const {TextArea} = Input;
 const categories = ['Modulation', 'Distortion', 'Egalisation', 'Reverb', 'Accordeur'];
 
 const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 14 },
+    labelCol: {span: 6},
+    wrapperCol: {span: 14},
 };
 
 
@@ -34,16 +34,16 @@ const PluginForm = props => {
     const [tags, setTags] = useState([]);
     const [inputVisible, setInputVisible] = useState(false);
     const [inputValue, setInputValue] = useState("");
-    const [uploadType, setUploadType] = useState('zip')
+    const [uploadType, setUploadType] = useState('zip');
     const uploadButton = (
         <div>
-            <Icon type={loading ? 'loading' : 'plus'} />
+            <Icon type={loading ? 'loading' : 'plus'}/>
             <div className="ant-upload-text">Upload</div>
         </div>
     );
 
     const zipHandleChange = (info) => {
-        const { status } = info.file;
+        const {status} = info.file;
 
         if (status === 'done') {
             setUploading(false);
@@ -101,7 +101,7 @@ const PluginForm = props => {
             setUploadType(e.target.value);
         }
 
-    }
+    };
 
     const handleInputConfirm = () => {
         console.log('flag');
@@ -185,7 +185,7 @@ const PluginForm = props => {
             <Form {...formItemLayout} onSubmit={(e) => handleClick(e)}>
                 <Form.Item label="Nom du Plugin">
                     {getFieldDecorator('name', {
-                        rules: [{ required: true, message: 'Entrer le nom du plugin !' }]
+                        rules: [{required: true, message: 'Entrer le nom du plugin !'}]
                     })(
                         <Input
                             placeholder="Nom du Plugin"
@@ -194,7 +194,7 @@ const PluginForm = props => {
                 </Form.Item>
                 <Form.Item label="Version">
                     {getFieldDecorator('version', {
-                        rules: [{ required: true, message: 'Entrer le numéro de version !' }]
+                        rules: [{required: true, message: 'Entrer le numéro de version !'}]
                     })(
                         <InputNumber
                             placeholder="Version"
@@ -203,26 +203,26 @@ const PluginForm = props => {
                 </Form.Item>
                 <Form.Item label="Description">
                     {getFieldDecorator('description', {
-                        rules: [{ required: true, message: 'Entrer une description !' }]
+                        rules: [{required: true, message: 'Entrer une description !'}]
                     })(
                         <TextArea rows={2}
-                            placeholder="Description"
+                                  placeholder="Description"
                         />
                     )}
                 </Form.Item>
                 <Form.Item label="Vignette">
                     {getFieldDecorator('thumbnail', {
-                        rules: [{ required: false, message: 'Please upload a thumbnail for your plugin!' }]
+                        rules: [{required: false, message: 'Please upload a thumbnail for your plugin!'}]
                     })(
                         <Upload name="logo" listType="picture-card" customRequest={handleBeforeUploadThumbnail}
-                            onChange={onThumbnailChange}>
-                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                                onChange={onThumbnailChange}>
+                            {imageUrl ? <img src={imageUrl} alt="avatar" style={{width: '100%'}}/> : uploadButton}
                         </Upload>
                     )}
                 </Form.Item>
-                <Form.Item label="Type d'upload:">
+                <Form.Item label="Type d'envoi">
                     {getFieldDecorator('uploadChoice', {
-                        rules: [{ required: false, message: 'Please upload a thumbnail for your plugin!' }]
+                        rules: [{required: false, message: 'Please upload a thumbnail for your plugin!'}]
                     })(
                         <Radio.Group onChange={handleRadioGroupChange} defaultValue="a" buttonStyle="solid">
                             <Radio.Button value="zip">Fichier Zip</Radio.Button>
@@ -234,31 +234,31 @@ const PluginForm = props => {
                 {uploadType === 'zip' ?
                     <Form.Item label="Fichier Zip">
                         {getFieldDecorator('zipfile', {
-                            rules: [{ required: true, message: 'Ajouter le fichier Zip de votre plugin!' }]
+                            rules: [{required: true, message: 'Ajouter le fichier Zip de votre plugin!'}]
                         })(
-                            <Dragger data={{ dataName: "SebLEMALADE" }} name="myFile" onChange={zipHandleChange}
-                                customRequest={handleCustomRequest} beforeUpload={handleBeforeUploadZip}>
+                            <Dragger data={{dataName: "SebLEMALADE"}} name="myFile" onChange={zipHandleChange}
+                                     customRequest={handleCustomRequest} beforeUpload={handleBeforeUploadZip}>
                                 <p className="ant-upload-drag-icon">
-                                    <Icon type="inbox" />
+                                    <Icon type="inbox"/>
                                 </p>
-                                <p className="ant-upload-text">Cliquer or glisser le fichier dans cette zone pour upload</p>
+                                <p className="ant-upload-text">Cliquer ou déposez le fichier sur cette zone pour
+                                    ajouter</p>
                             </Dragger>,
                         )}
                     </Form.Item>
                     :
                     <Form.Item label="Adresse Github">
                         {getFieldDecorator('githubAddress', {
-                            rules: [{ required: true, message: 'Ajouter une url github !' }]
+                            rules: [{required: true, message: 'Ajouter une url GitHub !'}]
 
                         })(
-                            <Input placeholder="Url Github" />
-
+                            <Input placeholder="Url GitHub"/>
                         )}
                     </Form.Item>
                 }
-                <Form.Item label="Categorie">
+                <Form.Item label="Catégorie">
                     {getFieldDecorator('category', {
-                        rules: [{ required: true, message: 'Selectionner une catégorie !' }]
+                        rules: [{required: true, message: 'Selectionner une catégorie !'}]
 
                     })(
                         <Select>
@@ -272,7 +272,7 @@ const PluginForm = props => {
 
                 <Form.Item label="Tags">
                     {getFieldDecorator('tags', {
-                        rules: [{ required: true, message: 'Selectionner au moins un tag!' }]
+                        rules: [{required: true, message: 'Selectionner au moins un tag!'}]
                     })(
                         <div>
                             {tags.map((item) => {
@@ -282,7 +282,7 @@ const PluginForm = props => {
                                 <Input
                                     type="text"
                                     size="small"
-                                    style={{ width: 78 }}
+                                    style={{width: 78}}
                                     value={inputValue}
                                     onChange={handleInputChange}
                                     onBlur={handleInputConfirm}
@@ -290,8 +290,8 @@ const PluginForm = props => {
                                 />
                             )}
                             {!inputVisible && (
-                                <Tag onClick={showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-                                    <Icon type="plus" /> Nouveau Tag
+                                <Tag onClick={showInput} style={{background: '#fff', borderStyle: 'dashed'}}>
+                                    <Icon type="plus"/> Nouveau Tag
                                 </Tag>
                             )}
                         </div>
@@ -302,8 +302,7 @@ const PluginForm = props => {
                     <Button
                         type="primary"
                         loading={uploading}
-                        htmlType="submit"
-                    >
+                        htmlType="submit">
                         {uploading ? 'Envoi en cours' : 'Envoyer le plugin'}
                     </Button>
                 </Form.Item>

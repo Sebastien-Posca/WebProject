@@ -1,10 +1,10 @@
 import React from 'react';
-import { Card, Button, Tag, Icon, Tooltip } from 'antd';
+import {Button, Card, Icon, Tag, Tooltip} from 'antd';
 import './PluginCard.css';
-import { Link, useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import Text from 'antd/lib/typography/Text';
 
-const { Meta } = Card;
+const {Meta} = Card;
 const PluginCard = props => {
     const history = useHistory();
     const plugin = props.item;
@@ -12,15 +12,15 @@ const PluginCard = props => {
     const handleClick = () => {
         const path = "/product/" + plugin._id;
         history.push(path);
-    }
+    };
     return (
         <Card className="pluginCardWorkshop"
-            hoverable
-            cover={<img className="workshopImage" alt="example" src={plugin.thumbnail} />}
+              hoverable
+              cover={<img className="workshopImage" alt="example" src={plugin.thumbnail}/>}
         >
             <Meta className="metaCardSection"
-                title={plugin.moduleName}
-                description={<Text code>version : {plugin.version}</Text>}
+                  title={plugin.moduleName}
+                  description={<Text code>version : {plugin.version}</Text>}
             >
             </Meta>
 
@@ -34,14 +34,16 @@ const PluginCard = props => {
             </div>
             <div className="pluginCommentLikes">
                 <div className="comments">
-                    <Tooltip title={plugin.comments.length + " commentaires"} >
-                        <Icon className="cardIcons" style={{ fontSize: '24px' }} type="message" theme="twoTone" twoToneColor="#1a98c9" className="hoverableIcon" />
+                    <Tooltip title={plugin.comments.length + " commentaires"}>
+                        <Icon className="cardIcons hoverableIcon" style={{fontSize: '24px'}} type="message"
+                              theme="twoTone" twoToneColor="#1a98c9"/>
                         <label>{plugin.comments.length}</label>
                     </Tooltip>
                 </div>
                 <div className="likes">
-                    <Tooltip title={plugin.likes + " likes"} >
-                        <Icon className="cardIcons" style={{ fontSize: '24px' }} type="heart" theme="twoTone" twoToneColor="#eb2f96" className="hoverableIcon" />
+                    <Tooltip title={plugin.likes + " likes"}>
+                        <Icon className="cardIcons hoverableIcon" style={{fontSize: '24px'}} type="heart"
+                              theme="twoTone" twoToneColor="#eb2f96"/>
                         <label>{plugin.likes}</label>
                     </Tooltip>
                 </div>
@@ -50,8 +52,6 @@ const PluginCard = props => {
     );
 };
 
-PluginCard.propTypes = {
-
-};
+PluginCard.propTypes = {};
 
 export default PluginCard;
