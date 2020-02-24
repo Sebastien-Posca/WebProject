@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PluginCard from '../../PluginCard';
-import {Icon, Input, Spin, Tag} from 'antd';
-import {BACKEND_ROOT_PATH} from "../../../constants";
+import { Icon, Input, Spin, Tag } from 'antd';
+import { BACKEND_ROOT_PATH } from "../../../constants";
 import Search from 'antd/lib/input/Search';
 import './Workshop.css';
 
@@ -127,7 +127,6 @@ const Workshop = props => {
                     <div className={"cards-container"}>
 
                         {result.map((item) => {
-                            console.log(item);
                             if (passFilters(item)) {
                                 return <PluginCard item={item} handleTagClick={onTagClick} />
                             }

@@ -4,8 +4,9 @@ import 'antd/dist/antd.css'
 import Dragger from 'antd/lib/upload/Dragger';
 import './PluginForm.css';
 import reqwest from 'reqwest';
-import {BACKEND_ROOT_PATH} from "../../../constants";
-import {useHistory} from 'react-router-dom';
+import { BACKEND_ROOT_PATH } from "../../../constants";
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -18,10 +19,10 @@ const formItemLayout = {
 
 
 const PluginForm = props => {
-
+    const selector = useSelector(state => state.loggedUser.userToken);
     const history = useHistory();
     Form.create();
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = props.form;
+    const { getFieldDecorator } = props.form;
     const [imageUrl, setImageUrl] = useState(false);
 
     const [loading, setLoading] = useState(false);
@@ -154,6 +155,9 @@ const PluginForm = props => {
                     method: 'post',
                     processData: false,
                     data: formData,
+                    headers: {
+                        Authorization: selector
+                    },
                     success: () => {
                         message.success('upload successfully.');
                         setUploading(false);
@@ -272,7 +276,7 @@ const PluginForm = props => {
                     })(
                         <div>
                             {tags.map((item) => {
-                                return <Tag key={item} closable={true} onClose={() => handleTagClose(item)}>{item}</Tag>
+                                return <Tag color="#f50" key={item} closable={true} onClose={() => handleTagClose(item)}>{item}</Tag>
                             })}
                             {inputVisible && (
                                 <Input

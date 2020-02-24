@@ -6,12 +6,15 @@ import './CommentComponent.css';
 import TextArea from 'antd/lib/input/TextArea';
 import reqwest from 'reqwest';
 import { BACKEND_ROOT_PATH } from "../constants";
+import { useSelector } from 'react-redux';
 
 const CommentComponent = props => {
     const [submitting, setSubmitting] = useState(false);
     const comments = props.comments
     const pluginId = props.pluginId
     const [value, setValue] = useState('');
+
+    const selector = useSelector(state => state.loggedUser.userToken);
 
     const handleChange = e => {
         setValue(e.target.value)
@@ -39,6 +42,9 @@ const CommentComponent = props => {
             method: 'post',
             type: 'json',
             processData: false,
+            headers: {
+                Authorization: selector
+            },
             contentType: 'application/json',
             data: JSON.stringify({ id: pluginId, comment: comment }),
             success: () => {
