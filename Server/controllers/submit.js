@@ -4,6 +4,7 @@ var fsPromises = fs.promises;
 var unzipper = require('unzipper')
 let pluginController = require('../controllers/plugin')
 const Plugin = require('../models/plugin')
+const simpleGit = require('simple-git');
 
 
 var storage = multer.diskStorage({
@@ -41,7 +42,7 @@ exports.fileUpload = (req, res) => {
       .then(() => {
         let timestamp = req.file.destination.split('./plugins/');
         let path = "./plugin/" + timestamp[1];
-        return pluginController.createPlugin('moi', req.file.destination, path, req.body.name, main.name, req.body.description, req.body.tags, req.body.categorie, req.body.version, res)
+        return pluginController.createPlugin('moi', req.file.destination, path, req.body.name, main.name, req.body.description, req.body.tags, req.body.categorie, req.body.version)
       })
       .then((plugin) => {
         console.log("Upload request complete, ok");
@@ -70,4 +71,45 @@ exports.fileDownload = (req, res) => {
             fileStream.destroy();
       });
   });
+}
+
+exports.gitUpload = (req, res) => {
+  let dirname = __dirname + "/../plugins" + Date.now();
+  let main;
+  fsPromises.mkdir(dirname, {recursive: true})
+  .then((err) => {
+    if (err) throw err;
+    return simpleGit.clone(req.body.git, [dirname])
+  })
+  .then(() => {
+    return fsPromises.access(dirname + '/main.json', fs.constants.F_OK)
+  })
+  .then(() => {
+    return fsPromises.readFile(req.file.destination + '/main.json');
+  })
+  .then((buffer) => {
+    main = JSON.parse(buffer);
+    console.log(main);
+    if (req.body.thumbnail != undefined) {
+      return fsPromises.writeFile(dirname + '/thumbnail.jpg', req.body.thumbnail);
+    } else {
+      return fsPromises.readFile(dirname + "/img/unknown.jpg", { encoding: 'base64' }).then((buff => {
+        return fsPromises.writeFile(dirname + '/thumbnail.jpg', buff);
+      }));
+    }
+  })
+  .then(() => {
+    let timestamp = dirname.split('./plugins/');
+    let path = "./plugin/" + timestamp[1];
+    return pluginController.createPlugin('moi', dirname, path, req.body.name, main.name, req.body.description, req.body.tags, req.body.categorie, req.body.version, req.body.git)
+  })
+  .then((plugin) => {
+    console.log("Upload request complete, ok");
+    return res.status(201).json({
+      message: "Message received",
+    });
+  })
+  .catch(err => {
+    console.log(err);
+  })
 }
