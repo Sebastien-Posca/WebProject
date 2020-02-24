@@ -1,1 +1,1 @@
-export const BACKEND_ROOT_PATH = 'http://192.168.43.68:3000';
+export const BACKEND_ROOT_PATH = 'http://10.188.251.244:3000';

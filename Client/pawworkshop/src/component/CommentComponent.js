@@ -13,20 +13,6 @@ const CommentComponent = props => {
     const pluginId = props.pluginId
     const [value, setValue] = useState('');
 
-
-    const Editor = ({ onChange, onSubmit, submitting, value }) => (
-        <div>
-            <Form.Item>
-                <TextArea rows={4} onChange={onChange} value={value} />
-            </Form.Item>
-            <Form.Item>
-                <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
-                    Add Comment
-            </Button>
-            </Form.Item>
-        </div>
-    );
-
     const handleChange = e => {
         setValue(e.target.value)
     };
@@ -56,11 +42,11 @@ const CommentComponent = props => {
             contentType: 'application/json',
             data: JSON.stringify({ id: pluginId, comment: comment }),
             success: () => {
-                message.success('upload successfully.');
+                message.success('Commentaire envoyé');
                 setSubmitting(false);
             },
             error: () => {
-                message.error('upload FAIIIIIIIILED.');
+                message.error('Problème avec le commentaire');
                 setSubmitting(false);
             },
         });
@@ -100,12 +86,17 @@ const CommentComponent = props => {
                     />
                 }
                 content={
-                    <Editor
-                        onChange={handleChange}
-                        onSubmit={handleSubmit}
-                        submitting={submitting}
-                        value={value}
-                    />
+                    <div>
+                        <Form.Item>
+                            <TextArea rows={4} onChange={handleChange} value={value} />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button htmlType="submit" loading={submitting} onClick={handleSubmit} type="primary">
+                                Add Comment
+            </Button>
+                        </Form.Item>
+                    </div>
+
                 }
             />
 

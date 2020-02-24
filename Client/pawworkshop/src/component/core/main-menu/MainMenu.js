@@ -4,7 +4,6 @@ import NavigationBar from '../navigation-bar/NavigationBar'
 const MainMenu = () => {
     return (
         <>
-            <NavigationBar/>
         </>
     );
 };
