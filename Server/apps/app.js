@@ -50,4 +50,4 @@ app.get('*', function (req, res) {
     res.status(404).send({ msg: "Route not found" });
 });
 
-app.listen(port, () => console.log(`Server listening on port ${port}!`))
+exports.server = app.listen(port, () => console.log(`Server listening on port ${port}!`))
