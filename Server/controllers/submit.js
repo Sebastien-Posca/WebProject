@@ -4,7 +4,7 @@ var fsPromises = fs.promises;
 var unzipper = require('unzipper')
 let pluginController = require('../controllers/plugin')
 const Plugin = require('../models/plugin')
-const simpleGit = require('simple-git');
+const simpleGit = require('simple-git/promise');
 
 
 var storage = multer.diskStorage({
@@ -74,18 +74,21 @@ exports.fileDownload = (req, res) => {
 }
 
 exports.gitUpload = (req, res) => {
-  let dirname = __dirname + "/../plugins" + Date.now();
+  let ts = Date.now()
+  let dirname = __dirname + "/../plugins/" + ts;
   let main;
-  fsPromises.mkdir(dirname, {recursive: true})
+  console.log(req.body.git);
+  fsPromises.mkdir("./plugins/" + ts, {recursive: true})
   .then((err) => {
     if (err) throw err;
-    return simpleGit.clone(req.body.git, [dirname])
+    console.log("Starting to clone");
+    return simpleGit().clone(req.body.git, dirname)
   })
   .then(() => {
     return fsPromises.access(dirname + '/main.json', fs.constants.F_OK)
   })
   .then(() => {
-    return fsPromises.readFile(req.file.destination + '/main.json');
+    return fsPromises.readFile(dirname + '/main.json');
   })
   .then((buffer) => {
     main = JSON.parse(buffer);
@@ -111,5 +114,8 @@ exports.gitUpload = (req, res) => {
   })
   .catch(err => {
     console.log(err);
+    return res.status(500).json({
+      message: err
+    })
   })
 }
