@@ -13,7 +13,7 @@ const CommentComponent = props => {
     const pluginId = props.pluginId;
     const [value, setValue] = useState('');
 
-    const selector = useSelector(state => state.loggedUser.userToken);
+    const selector = useSelector(state => state.loggedUser);
 
     const handleChange = e => {
         setValue(e.target.value)
@@ -91,27 +91,33 @@ const CommentComponent = props => {
 
             })}
 
-            <Comment
-                avatar={
-                    <Avatar
-                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                        alt="Han Solo"
-                    />
-                }
-                content={
-                    <div>
-                        <Form.Item>
-                            <TextArea rows={4} onChange={handleChange} value={value} />
-                        </Form.Item>
-                        <Form.Item>
-                            <Button htmlType="submit" loading={submitting} onClick={handleSubmit} type="primary">
-                                Commenter
+            {selector.userProfil ?
+                <Comment
+                    avatar={
+                        <Avatar
+                            src={selector.userProfil.thumbnail}
+                            alt={selector.userProfil.name}
+                        />
+                    }
+                    content={
+                        <div>
+                            <Form.Item>
+                                <TextArea rows={4} onChange={handleChange} value={value} />
+                            </Form.Item>
+                            <Form.Item>
+                                <Button htmlType="submit" loading={submitting} onClick={handleSubmit} allowClear={true} type="primary">
+                                    Laisser un commentaire
                             </Button>
-                        </Form.Item>
-                    </div>
+                            </Form.Item>
+                        </div>
 
-                }
-            />
+                    }
+                /> :
+                <>
+                    <TextArea rows={4} disabled={true} value="Vous devez être connecté pour laisser un commentaire ! " >
+                    </TextArea>
+                </>
+            }
 
 
         </div>

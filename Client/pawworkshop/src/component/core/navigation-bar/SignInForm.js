@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
-import { BACKEND_ROOT_PATH } from "../../../constants";
-import reqwest from 'reqwest';
-import { useDispatch } from 'react-redux';
-import logUser from '../../../store/actions/logUser';
-import setUserToken from '../../../store/actions/setUserToken';
+import { Form, Icon, Input, Button, } from 'antd';
 
 const SignInForm = props => {
 
     const { getFieldDecorator } = props.form;
-    const [loading, setLoading] = useState(false);
-    const dispatcher = useDispatch();
+    let loading = props.loading;
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -18,35 +12,14 @@ const SignInForm = props => {
         let credentials;
         props.form.validateFields((err, values) => {
             if (!err) {
-                setLoading(true);
+                loading = false;
                 formData.append('name', values.username)
                 formData.append("pwd", values.password)
                 credentials = { name: values.username, pwd: values.password };
 
             }
         });
-
-        reqwest({
-            url: `${BACKEND_ROOT_PATH}/user/login`,
-            method: 'post',
-            type: 'json',
-            processData: false,
-            contentType: 'application/json',
-            data: JSON.stringify(credentials),
-            success: (response) => {
-                console.log(response);
-                message.success('Commentaire envoyé');
-                setLoading(false);
-                dispatcher(logUser(response.user))
-                dispatcher(setUserToken(response.token));
-                // TODO : store user
-            },
-            error: (user) => {
-                console.log(user);
-                message.error('Problème avec le commentaire');
-                setLoading(false);
-            },
-        });
+        props.handleRequest(credentials);
     };
 
 

@@ -1,15 +1,20 @@
-import React, {useState} from 'react';
-import {Button, Icon, Menu, Modal, Popover} from 'antd';
+import React, { useState } from 'react';
+import { Button, Icon, Menu, Modal, Popover, message, } from 'antd';
 import './NavigationBar.css';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import WrappedSignInForm from './SignInForm';
-import { useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { BACKEND_ROOT_PATH } from "../../../constants";
+import reqwest from 'reqwest';
+import logUser from '../../../store/actions/logUser';
+import setUserToken from '../../../store/actions/setUserToken';
 
 const NavigationBar = props => {
 
     const selector = useSelector(state => state.loggedUser);
     console.log(selector)
+    const dispatcher = useDispatch();
+    const [loading, setLoading] = useState(false);
 
     const [signIn, setSignIn] = useState(false);
 
@@ -20,6 +25,31 @@ const NavigationBar = props => {
     const showSignIn = () => {
         setSignIn(true);
     };
+
+    const handleRequest = (credentials) => {
+
+        reqwest({
+            url: `${BACKEND_ROOT_PATH}/user/login`,
+            method: 'post',
+            type: 'json',
+            processData: false,
+            contentType: 'application/json',
+            data: JSON.stringify(credentials),
+            success: (response) => {
+                message.success('Bienvenue ' + response.user.name + " ! ");
+                dispatcher(logUser(response.user))
+                dispatcher(setUserToken(response.token));
+                setLoading(false);
+                setSignIn(false);
+            },
+            error: (user) => {
+                console.log(user);
+                message.error('Identifiant ou mot de passe incorrects');
+                setLoading(false);
+            },
+        });
+
+    }
     return (
         <div className="navigationBar">
             <Menu
@@ -30,17 +60,17 @@ const NavigationBar = props => {
                 className="navigationBarLinks"
             >
                 <Menu.Item key="2">
-                    <Icon type="desktop"/>
+                    <Icon type="desktop" />
                     <span>Visiter le magasin</span>
 
-                    <Link to="/workshop"/>
+                    <Link to="/workshop" />
 
                 </Menu.Item>
                 <Menu.Item key="1">
-                    <Icon type="pie-chart"/>
+                    <Icon type="pie-chart" />
                     <span>Ajouter un plugin</span>
 
-                    <Link to="/form"/>
+                    <Link to="/form" />
                 </Menu.Item>
             </Menu>
 
@@ -71,7 +101,7 @@ const NavigationBar = props => {
                 className="signInModal"
                 footer={null}
             >
-                <WrappedSignInForm/>
+                <WrappedSignInForm handleRequest={(credentials) => handleRequest(credentials)} loading={loading} />
             </Modal>
         </div >
 

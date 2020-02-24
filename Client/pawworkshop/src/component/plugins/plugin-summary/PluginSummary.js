@@ -26,15 +26,11 @@ const PluginSummary = props => {
         const fetchData = async () => {
             const result = await fetch(`${BACKEND_ROOT_PATH}/plugins/${params.id}`);
             const results = await result.json();
-
-            console.log(result);
-            console.log(results);
-
             setFetchedPlugin(results);
             setLoading(false);
         }
 
-        const hasLike = async () => {
+        const canLike = async () => {
 
             reqwest({
                 url: `${BACKEND_ROOT_PATH}/plugins/hasLike`,
@@ -58,10 +54,9 @@ const PluginSummary = props => {
         }
 
         fetchData();
+        canLike();
 
-        hasLike();
-
-    }, []);
+    }, [canLike]);
 
     const handleLike = () => {
         reqwest({
