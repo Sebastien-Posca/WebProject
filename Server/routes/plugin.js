@@ -4,6 +4,7 @@ const router = express.Router();
 
 
 router.post("/comment", PluginController.addComment);
+router.post("/hasLike", PluginController.hasLike);
 router.post("/like", PluginController.addLike);
 router.get("/:id", PluginController.getPlugin);
 router.get("/", PluginController.getPlugins);

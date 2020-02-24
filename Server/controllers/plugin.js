@@ -29,6 +29,7 @@ exports.createPlugin = (user, localPath, path, name, moduleName, description, ta
 exports.getPlugins = (req, res) => {
     Plugin.find({}, function (err, users) {
         if (err) return res.status(500).send(err);
+        if (users == null) res.status(500).send({ "err": "not found" });
 
         var pluginMap = [];
 
@@ -57,6 +58,8 @@ exports.getPlugin = (req, res) => {
 
     Plugin.findById(req.params.id).then((plugin, err) => {
         if (err) return res.status(500).send(err);
+        if (plugin == null) res.status(500).send({ "err": "not found" });
+
         console.log(plugin);
         let thumbnail = fs.readFileSync(plugin.localPath + '/thumbnail.jpg', "utf8")
         let pair;
@@ -84,6 +87,7 @@ exports.addComment = (req, res) => {
     req.body.comment.user = req.user.name;
     Plugin.findOneAndUpdate({ _id: req.body.id }, { $push: { comments: req.body.comment } }, { upsert: true, new: true }, (err, doc) => {
         if (err) return res.status(500).send(err);
+        if (doc == null) res.status(500).send({ "err": "not found" });
         return res.status(200).send(doc);
     });
 }
@@ -91,6 +95,7 @@ exports.addComment = (req, res) => {
 exports.addLike = (req, res) => {
     Plugin.findOneAndUpdate({ _id: req.body.id }, { $addToSet: { likes: req.user } }, { upsert: true, new: true }, (err, plugin) => {
         if (err) return res.status(500).send(err);
+        if (plugin == null) res.status(500).send({ "err": "not found" });
         let thumbnail = fs.readFileSync(plugin.localPath + '/thumbnail.jpg', "utf8")
         let pair;
         if (!thumbnail.startsWith('data:image')) {
@@ -106,3 +111,16 @@ exports.addLike = (req, res) => {
         return res.status(200).send(plugin);
     });
 }
+
+exports.hasLike = (req, res) => {
+
+    Plugin.findById(req.body.id).then((plugin, err) => {
+        if (err) return res.status(500).send(err);
+        if (plugin == null) res.status(500).send({ "err": "not found" });
+        if (plugin.likes.includes(req.user._id)) {
+            return res.status(200).send({ "canLike": false });
+        }
+        return res.status(200).send({ "canLike": true });
+    });
+}
+
