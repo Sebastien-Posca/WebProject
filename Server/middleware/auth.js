@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
     //     });
     // }
     req.user = {
-        _id: "5e41621c3b41ba1631a6d79e", name: "moi", password: "pswd"
+        _id: "5e53d7d4d3fe9d13578987ee", name: "pogchamp", password: "valise"
     }
     next();
 
