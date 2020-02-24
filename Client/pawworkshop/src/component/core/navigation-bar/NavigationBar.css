@@ -2,3 +2,39 @@
     width: 100%;
     margin-bottom: 3%;
 }
+
+.navigationBarLinks {
+    width: 100%;
+}
+
+.navigationBarProfil {
+    width: 10%;
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    display: flex;
+    float: right;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.navigationBarProfil>p {
+    margin: 5px 10px 5px 0;
+}
+
+.navigationBarProfil:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.popoverContent>img {
+    text-align: center;
+    width: 50px;
+    margin-bottom: 10px;
+}
+
+.popoverContent {
+    text-align: center;
+}
+
+.login-form-button {
+    width: 100%;
+}
