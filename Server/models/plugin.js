@@ -17,7 +17,8 @@ const PluginSchema = new Schema({
         text: { type: String },
         user: { type: String },
         date: { type: Date }
-    }]
+    }],
+    git: { type: String, required: false }
 });
 
 module.exports = mongoose.model('Plugin', PluginSchema);
