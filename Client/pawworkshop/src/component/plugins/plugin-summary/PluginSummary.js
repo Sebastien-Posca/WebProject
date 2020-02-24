@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {Button, Icon, message, Tabs, Tag} from 'antd';
-import {BACKEND_ROOT_PATH} from "../constants";
+import {BACKEND_ROOT_PATH} from "../../../constants";
 import Text from 'antd/lib/typography/Text';
-import CommentComponent from './CommentComponent';
+import CommentComponent from '../comment/CommentComponent';
 import './PluginSummary.css';
 import reqwest from 'reqwest';
 

@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Comment, Avatar, Tooltip, Form, Button, message } from 'antd';
+import React, {useState} from 'react';
+import {Avatar, Button, Comment, Form, message, Tooltip} from 'antd';
 import moment from 'moment';
 import './CommentComponent.css';
 import TextArea from 'antd/lib/input/TextArea';
 import reqwest from 'reqwest';
-import { BACKEND_ROOT_PATH } from "../constants";
+import {BACKEND_ROOT_PATH} from "../../../constants";
 
 const CommentComponent = props => {
     const [submitting, setSubmitting] = useState(false);
-    const comments = props.comments
-    const pluginId = props.pluginId
+    const comments = props.comments;
+    const pluginId = props.pluginId;
     const [value, setValue] = useState('');
 
     const handleChange = e => {
@@ -29,7 +28,7 @@ const CommentComponent = props => {
         const comment = {
             date: `${Date.now()}`,
             text: `${value}`
-        }
+        };
 
         formDataComment.append('id', pluginId);
         formDataComment.append('comment', JSON.stringify(comment));
@@ -40,7 +39,7 @@ const CommentComponent = props => {
             type: 'json',
             processData: false,
             contentType: 'application/json',
-            data: JSON.stringify({ id: pluginId, comment: comment }),
+            data: JSON.stringify({id: pluginId, comment: comment}),
             success: () => {
                 message.success('Commentaire envoyé');
                 setSubmitting(false);
@@ -71,7 +70,12 @@ const CommentComponent = props => {
                     }
                     datetime={
                         <Tooltip title={moment(item.date).format('YYYY-MM-DD HH:mm:ss')}>
-                            <span>{moment(item.date, 'YYYY-MM-DD HH:mm:ss').fromNow()}</span>
+                            <span>Il y a {moment(item.date, 'YYYY-MM-DD HH:mm:ss').fromNow()
+                                .replace(/month/, 'mois')
+                                .replace(/months/, 'mois')
+                                .replace(/day/, 'jour')
+                                .replace(/days/, 'jours')
+                                .replace(/ago/, '')}</span>
                         </Tooltip>
                     }
                 />
@@ -88,12 +92,12 @@ const CommentComponent = props => {
                 content={
                     <div>
                         <Form.Item>
-                            <TextArea rows={4} onChange={handleChange} value={value} />
+                            <TextArea rows={4} onChange={handleChange} value={value}/>
                         </Form.Item>
                         <Form.Item>
                             <Button htmlType="submit" loading={submitting} onClick={handleSubmit} type="primary">
-                                Add Comment
-            </Button>
+                                Commenter
+                            </Button>
                         </Form.Item>
                     </div>
 

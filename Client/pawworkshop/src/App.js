@@ -2,7 +2,7 @@ import React from 'react';
 import Plugin from './component/plugins/Plugin';
 import Workshop from './component/shop/workshop/Workshop';
 import MainMenu from './component/core/main-menu/MainMenu';
-import PluginSummary from './component/PluginSummary';
+import PluginSummary from './component/plugins/plugin-summary/PluginSummary';
 import TestPlugin from './component/plugins/test-plugin/TestPlugin';
 import store from './store/index';
 import './App.css';
