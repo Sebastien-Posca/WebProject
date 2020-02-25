@@ -36,7 +36,7 @@ exports.login = (req, res) => {
     User.findOne({ name: new RegExp('^' + req.body.name + '$', "i") }).then((doc) => {
         if (doc == null) return res.status(500).send({ "err": "not found" });
         //console.log(doc);
-        if (thumbnail != undefined) {
+        if (doc.thumbnail != undefined) {
             let thumbnail = fs.readFileSync('./profilePics/' + doc.thumbnail, { encoding: 'base64' })
             if (!thumbnail.startsWith('data:image')) {
                 doc.thumbnail = "data:image/jpg;base64," + thumbnail;
