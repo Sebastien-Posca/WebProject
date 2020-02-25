@@ -24,11 +24,15 @@ const NavigationBar = props => {
     };
 
     const showSignIn = () => {
-        setSignIn(true);
+        if (!selector.userProfil) {
+            setSignIn(true);
+        }
     };
 
-    const handleDisconnect = () => {
-
+    const handleDisconnect = (e) => {
+        e.stopPropagation();
+        dispatcher(logUser(null))
+        dispatcher(setUserToken(null));
     }
 
     const handleRequest = (credentials) => {
@@ -109,7 +113,7 @@ const NavigationBar = props => {
                     <Popover placement="bottomRight" content={
                         <div className="popoverContent">
                             <img className="popoverImageProfil" src={selector.userProfil.thumbnail}></img>
-                            <p>{selector.userProfil.name}</p> <p onClick={handleDisconnect}>Se deconnecter</p>
+                            <p>{selector.userProfil.name}</p> <Button type="primary" onClick={handleDisconnect}>Se deconnecter</Button>
                         </div>
                     } trigger="hover">
                         <img className="navigationProfilImage" src={selector.userProfil.thumbnail}></img>

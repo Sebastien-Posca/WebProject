@@ -21,10 +21,9 @@ let currentValue;
 store.subscribe(() => {
     const previousValue = currentValue;
     currentValue = store.getState().loggedUser;
-    if (currentValue.userProfil) {
-        if (currentValue !== previousValue) {
-            localStorage.setItem('loggedUser', JSON.stringify(currentValue));
-        }
+    if (currentValue !== previousValue) {
+        localStorage.setItem('loggedUser', JSON.stringify(currentValue));
     }
+
 })
 export default store

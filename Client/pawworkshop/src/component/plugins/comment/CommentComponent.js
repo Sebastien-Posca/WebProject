@@ -49,11 +49,13 @@ const CommentComponent = props => {
             data: JSON.stringify({ id: pluginId, comment: comment }),
             success: () => {
                 message.success('Commentaire envoyé');
+                props.refresh();
+                setValue('');
                 setSubmitting(false);
             },
             error: (err) => {
                 console.log(err)
-                message.error('Problème avec le commentaire');
+                message.error('Problème avec l\'envoi du commentaire');
                 setSubmitting(false);
             },
         });

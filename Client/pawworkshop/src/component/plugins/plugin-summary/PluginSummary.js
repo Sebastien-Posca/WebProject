@@ -18,7 +18,7 @@ const PluginSummary = props => {
     const [fetchedPlugin, setFetchedPlugin] = useState(null);
     const [loading, setLoading] = useState(true);
     const [canLike, setCanLike] = useState(false);
-
+    const [reload, setReload] = useState(0);
     const selector = useSelector(state => state.loggedUser.userToken);
 
     useEffect(() => {
@@ -55,8 +55,11 @@ const PluginSummary = props => {
         fetchData();
         canLike();
 
-    }, [canLike]);
+    }, [canLike, reload]);
 
+    const refresh = () => {
+        setReload(reload + 1);
+    }
     const handleLike = () => {
         reqwest({
             url: `${BACKEND_ROOT_PATH}/plugins/like`,
@@ -121,14 +124,14 @@ const PluginSummary = props => {
                             <TabPane tab="Description" key="1">
                                 <div className="pluginDescription">
                                     <h1> Description </h1>
-                                    <p> Description du plugin séléctionné </p>
+                                    <p> {fetchedPlugin.description} </p>
                                     <Button onClick={goToTest} type="primary"
                                         icon="play-circle">Essayer {fetchedPlugin.name}</Button>
                                 </div>
                             </TabPane>
                             <TabPane tab="Commentaires" key="2">
                                 <section className="commentSection">
-                                    <CommentComponent pluginId={fetchedPlugin._id} comments={fetchedPlugin.comments} />
+                                    <CommentComponent pluginId={fetchedPlugin._id} comments={fetchedPlugin.comments} refresh={refresh} />
                                 </section>
                             </TabPane>
                         </Tabs>
