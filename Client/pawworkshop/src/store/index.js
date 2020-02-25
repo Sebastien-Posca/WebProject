@@ -9,7 +9,7 @@ const combination = combineReducers({ plugins, loggedUser });
 
 // const persistedState = { loggedUser: JSON.parse(localStorage.getItem('loggedUser')) }
 const persistedState = localStorage.getItem('loggedUser') ? {
-    loggedUser: localStorage.getItem('loggedUser')
+    loggedUser: JSON.parse(localStorage.getItem('loggedUser'))
 } :
     {};
 const logger = createLogger({
