@@ -47,6 +47,10 @@
     width: 100%;
 }
 
+.popoverImageProfil {
+    width: 50px;
+}
+
 .navigationProfilImage {
     border-radius: 5px;
     width: 32px;
