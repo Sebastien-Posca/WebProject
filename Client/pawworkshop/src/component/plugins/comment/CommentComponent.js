@@ -35,14 +35,15 @@ const CommentComponent = props => {
 
         formDataComment.append('id', pluginId);
         formDataComment.append('comment', JSON.stringify(comment));
-
+        console.log(pluginId)
+        console.log(comment)
         reqwest({
             url: `${BACKEND_ROOT_PATH}/plugins/comment`,
             method: 'post',
             type: 'json',
             processData: false,
             headers: {
-                Authorization: selector
+                Authorization: selector.userToken
             },
             contentType: 'application/json',
             data: JSON.stringify({ id: pluginId, comment: comment }),
@@ -63,7 +64,7 @@ const CommentComponent = props => {
             {comments.map((item) => {
 
                 return <Comment
-                    author={item.author}
+                    author={item.user}
                     avatar={
                         <Avatar
                             src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
@@ -106,7 +107,7 @@ const CommentComponent = props => {
                                 <TextArea rows={4} onChange={handleChange} value={value} />
                             </Form.Item>
                             <Form.Item>
-                                <Button htmlType="submit" loading={submitting} onClick={handleSubmit} allowClear={true} type="primary">
+                                <Button htmlType="submit" loading={submitting} onClick={handleSubmit} type="primary">
                                     Laisser un commentaire
                             </Button>
                             </Form.Item>

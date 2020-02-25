@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Icon, Input, Button, } from 'antd';
 
-const SignInForm = props => {
+const RegisterForm = props => {
 
     const { getFieldDecorator } = props.form;
     let loading = props.loading;
@@ -12,15 +12,14 @@ const SignInForm = props => {
         let credentials;
         props.form.validateFields((err, values) => {
             if (!err) {
-                console.log("validating");
                 loading = true;
                 formData.append('name', values.username)
-                formData.append("pwd", values.password)
-                credentials = { name: values.username, pwd: values.password };
+                formData.append("password", values.password)
+                credentials = { name: values.username, password: values.password };
 
             }
         });
-        props.handleRequest(credentials);
+        props.handleRegister(credentials);
     };
 
 
@@ -50,15 +49,14 @@ const SignInForm = props => {
                 </Form.Item>
                 <Form.Item>
                     <Button loading={loading} type="primary" htmlType="submit" className="login-form-button">
-                        Se connecter
+                        Créer son compte
           </Button>
-                    Ou <a href="">créer un compte !</a>
                 </Form.Item>
             </Form>
         </div>
     );
 };
 
-const WrappedSignInForm = Form.create()(SignInForm);
+const WrappedRegisterForm = Form.create()(RegisterForm);
 
-export default WrappedSignInForm;
+export default WrappedRegisterForm;

@@ -7,7 +7,7 @@ import Text from 'antd/lib/typography/Text';
 import CommentComponent from '../comment/CommentComponent';
 import './PluginSummary.css';
 import reqwest from 'reqwest';
-import {useHistory} from "react-router";
+import { useHistory } from "react-router";
 
 
 const { TabPane } = Tabs;
@@ -20,10 +20,6 @@ const PluginSummary = props => {
     const [canLike, setCanLike] = useState(false);
 
     const selector = useSelector(state => state.loggedUser.userToken);
-    console.log("SELECTOR")
-
-    console.log(selector)
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -127,7 +123,7 @@ const PluginSummary = props => {
                                     <h1> Description </h1>
                                     <p> Description du plugin séléctionné </p>
                                     <Button onClick={goToTest} type="primary"
-                                            icon="play-circle">Essayer {fetchedPlugin.name}</Button>
+                                        icon="play-circle">Essayer {fetchedPlugin.name}</Button>
                                 </div>
                             </TabPane>
                             <TabPane tab="Commentaires" key="2">

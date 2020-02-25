@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Icon, Menu, Modal, Popover, message, } from 'antd';
+import { Button, Icon, Menu, Modal, Popover, message, Tabs, } from 'antd';
 import './NavigationBar.css';
 import { Link } from 'react-router-dom';
 import WrappedSignInForm from './SignInForm';
@@ -8,7 +8,8 @@ import { BACKEND_ROOT_PATH } from "../../../constants";
 import reqwest from 'reqwest';
 import logUser from '../../../store/actions/logUser';
 import setUserToken from '../../../store/actions/setUserToken';
-
+import WrappedRegisterForm from './RegisterForm';
+const { TabPane } = Tabs;
 const NavigationBar = props => {
 
     const selector = useSelector(state => state.loggedUser);
@@ -26,8 +27,11 @@ const NavigationBar = props => {
         setSignIn(true);
     };
 
-    const handleRequest = (credentials) => {
+    const handleDisconnect = () => {
 
+    }
+
+    const handleRequest = (credentials) => {
         reqwest({
             url: `${BACKEND_ROOT_PATH}/user/login`,
             method: 'post',
@@ -48,8 +52,32 @@ const NavigationBar = props => {
                 setLoading(false);
             },
         });
-
     }
+    const handleRegister = (credentials) => {
+        console.log("register")
+        console.log(credentials);
+        reqwest({
+            url: `${BACKEND_ROOT_PATH}/user/create`,
+            method: 'post',
+            type: 'json',
+            processData: false,
+            contentType: 'application/json',
+            data: JSON.stringify(credentials),
+            success: (response) => {
+                message.success('Bienvenue ' + response.user.name + " ! ");
+                // dispatcher(logUser(response.user))
+                // dispatcher(setUserToken(response.token));
+                setLoading(false);
+                setSignIn(false);
+            },
+            error: (user) => {
+                console.log(user);
+                message.error('Probléme avec l"inscription, veuillez recommencer');
+                setLoading(false);
+            },
+        });
+    }
+
     return (
         <div className="navigationBar">
             <Menu
@@ -78,8 +106,14 @@ const NavigationBar = props => {
                 <div className="navigationBarProfil" onClick={showSignIn}>
                     <p>{selector.userProfil.name}</p>
 
-                    <Popover placement="bottomRight" content={<div className="popoverContent"><img className="popoverImageProfil" src={selector.userProfil.thumbnail}></img> <p>{selector.userProfil.name}</p></div>} trigger="hover">
+                    <Popover placement="bottomRight" content={
+                        <div className="popoverContent">
+                            <img className="popoverImageProfil" src={selector.userProfil.thumbnail}></img>
+                            <p>{selector.userProfil.name}</p> <p onClick={handleDisconnect}>Se deconnecter</p>
+                        </div>
+                    } trigger="hover">
                         <img className="navigationProfilImage" src={selector.userProfil.thumbnail}></img>
+
                     </Popover>
                 </div>
                 :
@@ -101,7 +135,33 @@ const NavigationBar = props => {
                 className="signInModal"
                 footer={null}
             >
-                <WrappedSignInForm handleRequest={(credentials) => handleRequest(credentials)} loading={loading} />
+                <Tabs defaultActiveKey="2">
+                    <TabPane
+                        tab={
+                            <span>
+                                <Icon type="apple" />
+                                S'inscrire
+        </span>
+                        }
+                        key="1"
+                    >
+                        <WrappedRegisterForm handleRegister={(credentials => handleRegister(credentials))} loading={loading} />
+
+                    </TabPane>
+                    <TabPane
+                        tab={
+                            <span>
+                                <Icon type="android" />
+                                Se connecter
+        </span>
+                        }
+                        key="2"
+                    >
+                        <WrappedSignInForm handleRequest={(credentials) => handleRequest(credentials)} loading={loading} />
+
+                    </TabPane>
+                </Tabs>
+
             </Modal>
         </div >
 
