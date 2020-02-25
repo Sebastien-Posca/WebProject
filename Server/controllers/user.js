@@ -13,7 +13,10 @@ exports.createUser = (req, res) => {
         user.password = hash;
         user.save((err, user) => {
             if (err) res.status(500).send(err);
-            return res.status(201).send(user);
+            jwt.sign({ id: user._id, name: user.name }, 'shhhhh', function (err, token) {
+                if (err) return res.status(500).send(err);
+                return res.status(201).send({ "token": token, "user": user })
+            });
         });
     });
 }
