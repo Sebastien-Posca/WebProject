@@ -46,7 +46,7 @@ const Workshop = props => {
     };
 
     const passFilters = (plugin) => {
-        if (plugin.moduleName.toLowerCase().includes(filterName.toLowerCase()) && checkForTag(plugin))
+        if (plugin.name.toLowerCase().includes(filterName.toLowerCase()) && checkForTag(plugin))
             return true;
         return false;
     };

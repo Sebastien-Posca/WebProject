@@ -70,8 +70,8 @@ const NavigationBar = props => {
             success: (response) => {
                 console.log(response);
                 message.success('Bienvenue ' + response.user.name + " ! ");
-                // dispatcher(logUser(response.user))
-                // dispatcher(setUserToken(response.token));
+                dispatcher(logUser(response.user))
+                dispatcher(setUserToken(response.token));
                 setLoading(false);
                 setSignIn(false);
             },
@@ -144,7 +144,7 @@ const NavigationBar = props => {
                     <TabPane
                         tab={
                             <span>
-                                <Icon type="apple" />
+                                <Icon type="user-add" />
                                 S'inscrire
         </span>
                         }
@@ -156,7 +156,7 @@ const NavigationBar = props => {
                     <TabPane
                         tab={
                             <span>
-                                <Icon type="android" />
+                                <Icon type="login" />
                                 Se connecter
         </span>
                         }
