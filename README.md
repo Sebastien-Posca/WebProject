@@ -2,18 +2,21 @@
 ## Installation:
 
 ### Prérequis : 
-Installer MongoDB
-De préférence utiliser une machine sous Unix pour le serveur
-Python 3.6 pour le serveur, afin de pouvoir utiliser l’encryption des mots de passe
-Pour le serveur :
-Cloner le repo github : git clone https://github.com/Sebastien-Posca/WebProject.git
-Dans le répertoire Server exécuter les commandes : npm install puis npm run start
-Le serveur est lancé sur le port 1337 !
+1. Installer MongoDB
+2. De préférence utiliser une machine sous Unix pour le serveur
+3. Python 3.6 pour le serveur, afin de pouvoir utiliser l’encryption des mots de passe
+
+### Pour le serveur :
+1. Cloner le repo github : git clone https://github.com/Sebastien-Posca/WebProject.git
+2. Dans le répertoire Server exécuter les commandes : npm install puis npm run start
+3. Le serveur est lancé sur le port 1337 !
 
 #### Pour le client :
-Dans le répertoire Client/pawworkshop utiliser la commande npm install puis si le serveur tourne sur la même machine que le client, exécuter npm start , si ce n’est pas le cas, se rendre dans Client/pawworkshop/src/constants.js et remplacer ‘localhost’ par l’adresse IP du serveur, puis exécuter npm start
-Le client est lancé sur le port 3000  et un onglet du navigateur par défaut s’ouvre sur la page d’accueil de l’application.
-Si l’onglet ne s’ouvre pas automatiquement, vous pouvez y accéder en accédant à l’url : http://localhost:3000
+1. Dans le répertoire Client/pawworkshop utiliser la commande npm install puis si le serveur tourne sur la même machine que le client, exécuter npm start , si ce n’est pas le cas, se rendre dans Client/pawworkshop/src/constants.js et remplacer ‘localhost’ par l’adresse IP du serveur, puis exécuter npm start
+
+2. Le client est lancé sur le port 3000  et un onglet du navigateur par défaut s’ouvre sur la page d’accueil de l’application.
+
+3. Si l’onglet ne s’ouvre pas automatiquement, vous pouvez y accéder en accédant à l’url : http://localhost:3000
 
 
 
