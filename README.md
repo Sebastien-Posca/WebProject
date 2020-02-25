@@ -11,7 +11,7 @@
 2. Dans le répertoire Server exécuter les commandes : npm install puis npm run start
 3. Le serveur est lancé sur le port 1337 !
 
-#### Pour le client :
+### Pour le client :
 1. Dans le répertoire Client/pawworkshop utiliser la commande npm install puis si le serveur tourne sur la même machine que le client, exécuter npm start , si ce n’est pas le cas, se rendre dans Client/pawworkshop/src/constants.js et remplacer ‘localhost’ par l’adresse IP du serveur, puis exécuter npm start
 
 2. Le client est lancé sur le port 3000  et un onglet du navigateur par défaut s’ouvre sur la page d’accueil de l’application.
