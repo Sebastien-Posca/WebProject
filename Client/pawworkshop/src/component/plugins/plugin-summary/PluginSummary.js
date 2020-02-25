@@ -27,6 +27,7 @@ const PluginSummary = props => {
             const results = await result.json();
             setFetchedPlugin(results);
             setLoading(false);
+            console.log(results);
         }
 
         const canLike = async () => {

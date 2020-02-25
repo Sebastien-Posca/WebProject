@@ -68,6 +68,7 @@ const NavigationBar = props => {
             contentType: 'application/json',
             data: JSON.stringify(credentials),
             success: (response) => {
+                console.log(response);
                 message.success('Bienvenue ' + response.user.name + " ! ");
                 // dispatcher(logUser(response.user))
                 // dispatcher(setUserToken(response.token));
