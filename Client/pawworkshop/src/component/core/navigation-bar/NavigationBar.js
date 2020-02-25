@@ -113,11 +113,12 @@ const NavigationBar = props => {
 
                     <Popover placement="bottomRight" content={
                         <div className="popoverContent">
-                            <img className="popoverImageProfil" src={selector.userProfil.thumbnail}></img>
+                            {selector.userProfil.thumbnail ? <img className="popoverImageProfil" src={selector.userProfil.thumbnail}></img> : <Button icon="user"></Button>}
+
                             <p>{selector.userProfil.name}</p> <Button type="primary" onClick={handleDisconnect}>Se deconnecter</Button>
                         </div>
                     } trigger="hover">
-                        <img className="navigationProfilImage" src={selector.userProfil.thumbnail}></img>
+                        {selector.userProfil.thumbnail ? <img className="popoverImageProfil" src={selector.userProfil.thumbnail}></img> : <Button icon="user"></Button>}
 
                     </Popover>
                 </div>
