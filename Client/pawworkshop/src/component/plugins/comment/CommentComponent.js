@@ -50,7 +50,8 @@ const CommentComponent = props => {
                 message.success('Commentaire envoyé');
                 setSubmitting(false);
             },
-            error: () => {
+            error: (err) => {
+                console.log(err)
                 message.error('Problème avec le commentaire');
                 setSubmitting(false);
             },
