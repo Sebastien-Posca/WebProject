@@ -36,11 +36,13 @@ exports.login = (req, res) => {
     User.findOne({ name: new RegExp('^' + req.body.name + '$', "i") }).then((doc) => {
         if (doc == null) return res.status(500).send({ "err": "not found" });
         //console.log(doc);
-        let thumbnail = fs.readFileSync('./profilePics/' + doc.thumbnail, { encoding: 'base64' })
-        if (!thumbnail.startsWith('data:image')) {
-            doc.thumbnail = "data:image/jpg;base64," + thumbnail;
-        } else {
-            doc.thumbnail = thumbnail;
+        if (thumbnail != undefined) {
+            let thumbnail = fs.readFileSync('./profilePics/' + doc.thumbnail, { encoding: 'base64' })
+            if (!thumbnail.startsWith('data:image')) {
+                doc.thumbnail = "data:image/jpg;base64," + thumbnail;
+            } else {
+                doc.thumbnail = thumbnail;
+            }
         }
         bcrypt.compare(req.body.pwd, doc.password, function (err, resp) {
             if (err) return res.status(500).send(err);
